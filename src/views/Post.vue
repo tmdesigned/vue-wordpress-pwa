@@ -13,12 +13,16 @@
       </div>
       <article v-html="postData.content.rendered"></article>
     </div>
+    <div class="related-posts-area">
+      <ul class="related-posts">
+          <li class="related-post" v-for="relatedPost in postData['jetpack-related-posts']" :key="'related-post-' + relatedPost.id">
+          </li>
+      </ul>
+    </div>
   </div>
 </template>
 
 <script>
-
-import Prism from 'prismjs';
 
 export default {
   name: 'post',
@@ -33,7 +37,8 @@ export default {
         },
         content : {
           rendered : ''
-        }
+        },
+        "jetpack-related-posts" : []
       }
     }
   },
