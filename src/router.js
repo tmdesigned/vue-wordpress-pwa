@@ -1,6 +1,9 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Home from './views/Home.vue'
+import Archive from './views/Archive.vue';
+import Post from './views/Post.vue';
+import Page from './views/Page.vue';
 
 Vue.use(Router)
 
@@ -16,10 +19,35 @@ export default new Router({
     {
       path: '/about',
       name: 'about',
-      // route level code-splitting
-      // this generates a separate chunk (about.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
-      component: () => import(/* webpackChunkName: "about" */ './views/About.vue')
+      component: Page,
+      meta: { slug : "about" }
+    },
+    {
+      path: '/archive',
+      name: 'archive',
+      component: Archive
+    },
+    {
+      path: '/contact',
+      name: 'contact',
+      component: Page,
+      meta: { slug : "contact" }
+    },
+    {
+      path: '/post',
+      name: 'post-home',
+      component: Archive
+    },
+    {
+      path: '/post/:slug',
+      name: 'post',
+      component: Post
+    },
+    {
+      path: '/resume',
+      name: 'resume',
+      component: Page,
+      meta: { slug : "resume" }
     }
   ]
 })
