@@ -85,7 +85,7 @@ export default {
       }
     },
     meta: [
-      { name: 'description', content: 'I\'m passionate about web development. Good web development. Websites that are crisp, clean, and run smoothly under the hood. This takes a diverse skill-set, and it\'s a field that never stops changing. Lucky for me, I love digging into new techniques and exploring what\'s new. Scroll down and see what I\'ve been digging into recently.', id: 'desc' }
+      { name: 'description', content: 'I\'m passionate about web development. Good web development. Websites that are crisp, clean, and run smoothly under the hood. This takes a diverse skill-set, and I love digging into new techniques and exploring what\'s new. See what I\'ve been digging into recently.', id: 'desc' }
     ]
   }
 }
@@ -103,11 +103,13 @@ export default {
   body{
     margin: 0;
     box-sizing: border-box;
+    word-break: break-word;
     font-family: 'Montserrat', sans-serif;
   }
 
   body *{
     box-sizing: inherit;
+    word-break: inherit;
   }
 
   h1 {
@@ -150,6 +152,7 @@ export default {
 
 iframe, .table-overflow{
    overflow-x: scroll;
+   max-width: 100%;
 }
 
 .wp_syntax pre {
@@ -164,24 +167,14 @@ iframe, .table-overflow{
     overflow-x: scroll;
     max-width: 100%;
     white-space: pre-wrap; 
-    word-break: break-word;
   }
   article a{
     position: relative;
+    text-decoration: underline;
+
     &:link,&:visited{
     }
     &:hover, &:active{
-      text-decoration: underline;
-    }
-    &::before{
-      content: " ";
-      position: absolute;
-      z-index: -1;
-      background-color: #eee;
-      left: -2px;
-      top: 0px;
-      right: -2px;
-      bottom: 0px;
     }
   }
   
@@ -226,8 +219,6 @@ iframe, .table-overflow{
         transform: translateY( -50% );
         z-index: 5;
         padding: 1em;
-        /* width: 4em; */
-        /* box-shadow: 2px 2px 2px -1px rgba(0,0,0,.1); */
     }
   }
 
@@ -268,13 +259,10 @@ iframe, .table-overflow{
     display: flex;
     flex-direction: column-reverse;
     @media screen and (min-width: $desktop){
-          flex-direction: column;
-
+      flex-direction: column;
       top: 1em;
       left: 2em;
       right: auto;
-      // position: static;
-      // padding: 1em 2em 1em 1em;
       flex-shrink: 0;
       background-color: transparent;
     }
@@ -285,7 +273,7 @@ iframe, .table-overflow{
 }
 
 .home-title {
-      text-align: center;
+    text-align: center;
     margin-top: 100px;
     @media screen and (min-width: $desktop){
       margin-top: 0;
@@ -305,9 +293,9 @@ iframe, .table-overflow{
   }
 
   .archive-nav{
-padding-left: 1em;
-padding-right: 1em;
-min-width:275px;
+    padding-left: 1em;
+    padding-right: 1em;
+    min-width:275px;
   }
 
   .disabled{
@@ -387,8 +375,6 @@ min-width:275px;
         transition-timing-function: ease-out;
       }
 
-
-
       /* Priority of slide from bottom effect when at top menu on mobile, 
          and always highlight active link on mobile (desktop has the labels instead) */
       @media screen and (max-width : $desktopFromLeft ){
@@ -451,9 +437,7 @@ min-width:275px;
       &::after{
         content: "\A";
       }
-
     }
-    
   }
 
   .post-featured-image {

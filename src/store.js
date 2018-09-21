@@ -1,37 +1,11 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import VueResource from 'vue-resource'
- 
+import helper from '@/http-helper.js'
+
 Vue.use(VueResource);
 
 Vue.use(Vuex)
-
-
-const helper = {
-  actions: {
-    fetchAndStore : function( context, endpoint, commitMessage ){
-      return new Promise((resolve) => {
-        Vue.http.get('https://tmdesigned.com/wp/wp-json/' + endpoint ).then((response) => {
-          context.commit( commitMessage,  response );
-          resolve();
-        });
-      });
-    },
-    defer : function() {  //simple observer that can be resolved externally
-      var res, rej;
-    
-      var promise = new Promise((resolve, reject) => {
-        res = resolve;
-        rej = reject;
-      });
-    
-      promise.resolve = res;
-      promise.reject = rej;
-    
-      return promise;
-    }
-  }
-}
 
 export default new Vuex.Store({
   state: {
