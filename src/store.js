@@ -11,7 +11,7 @@ const helper = {
   actions: {
     fetchAndStore : function( context, endpoint, commitMessage ){
       return new Promise((resolve) => {
-        Vue.http.get('https://tmdesigned.com/wp-json/' + endpoint ).then((response) => {
+        Vue.http.get('https://tmdesigned.com/wp/wp-json/' + endpoint ).then((response) => {
           context.commit( commitMessage,  response );
           resolve();
         });
@@ -232,36 +232,3 @@ export default new Vuex.Store({
 
 
 
-
-/*  Fetch & cache strategy
-self.addEventListener('fetch', function(event) {
-  event.respondWith(
-    caches.open('mysite-dynamic').then(function(cache) {
-      return cache.match(event.request).then(function (response) {
-        return response || fetch(event.request).then(function(response) {
-          cache.put(event.request, response.clone());
-          return response;
-        });
-      });
-    })
-  );
-});
-
-*/
-
-
-
-/*
-
-    //will be deprecated
-    postList : function(state){
-      let posts = [];
-      let props = Object.keys( state.posts );
-      for( let postKey of props ){
-        posts.push( state.posts[postKey].title.rendered );
-      }
-      return posts;
-    },
-
-
-    */

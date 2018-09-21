@@ -13,18 +13,18 @@
         <ul class="post-list">
           <li v-for="post in postsToShow" :key="'post-' + post.slug">
              <router-link :to="{ name: 'post', params: {slug: post.slug } }">
-              <article class="post-list-item highlight-animation highlight-from-right">
+              <article class="post-list-item highlight-animation highlight-shutter-out">
                 <div class="post-thumbnail" v-bind:style="{ backgroundImage: 'url(' + post.featured_image + ')' }">
                 </div>
                 <div class="post-details">
-                  <h3>{{ post.title }}</h3>
+                  <h3 v-html="post.title"></h3>
+                  <div class="sub-info post-date">{{ post.postDate }}</div>
                   <!-- <div class="tags">
                     <span class="tag" v-for="tag in post.tagsEmbedded" :key="'tag-' + tag.slug">
                     {{ tag.name }}
                     </span>
                   </div> -->
-                  <div class="excerpt">
-                    {{ post.excerpt }}
+                  <div class="excerpt" v-html="post.excerpt">
                   </div>
                 </div>
               </article>
@@ -77,19 +77,21 @@ export default {
     last : function(){
       return this.postsPerPage * ( this.currentPage + 1 ) < this.totalPosts ? 
                 this.postsPerPage * ( this.currentPage + 1 ) : 
-                this.totalPosts;
+                this.totalPosts > 0 ? 
+                this.totalPosts :
+                0;
     }
   },
   watch :{
     postsByDate : {
       immediate: true,
-      handler : function( val ){
-        if( val.length === 0 ){
-          this.loading = true;
-        }else{
-          this.loading = false;
-          this.postsToShow = this.postsByDate.slice( this.first, this.last );
-        }
+      handler : function(){
+        this.updateShownPosts();
+      }
+    },
+    last : {
+      handler : function(){
+        this.updateShownPosts();
       }
     }
   },
@@ -111,8 +113,14 @@ export default {
         page : this.currentPage + 1,
         perPage: this.postsPerPage
       }
+      
       this.$store.dispatch( 'prepPostRange', ranges ).then( () => {
-        this.postsToShow = this.postsByDate.slice( this.first, this.last );
+        if( this.last > 0 ){
+          this.loading = false;
+          this.postsToShow = this.postsByDate.slice( this.first, this.last );
+
+        }
+        
       });
     }
   }

@@ -8,13 +8,37 @@
         </div>
       <nav id="nav" class="main-menu">
         <ul>
-          <li class="hide-on-desktop"><linear-nav-button type="prev" /></li>
-          <li><router-link class="highlight-animation highlight-from-left" to="/" ><i class="fa fa-fw fa-home" aria-hidden="true"></i><span class="header-link-text link-text"> Home</span></router-link></li>
-          <li><router-link class="highlight-animation highlight-from-left" to="/about"><i class="fa fa-fw fa-info" aria-hidden="true"></i><span class="header-link-text link-text"> About</span></router-link></li>
-          <li><router-link class="highlight-animation highlight-from-left" to="/archive"><i class="fa fa-fw fa-archive" aria-hidden="true"></i><span class="header-link-text link-text"> Archive</span></router-link></li>
-          <li><router-link class="highlight-animation highlight-from-left" to="/resume"><i class="fa fa-fw fa-clock-o" aria-hidden="true"></i><span class="header-link-text link-text"> Resume</span></router-link></li>
-          <li><router-link class="highlight-animation highlight-from-left" to="/contact"><i class="fa fa-fw fa-envelope" aria-hidden="true"></i><span class="header-link-text link-text"> Contact</span></router-link></li>
-          <li class="hide-on-desktop"><linear-nav-button type="next" /></li>
+          <li class="hide-on-desktop">
+            <linear-nav-button type="prev" />
+          </li>
+          <li>
+            <router-link class="highlight-animation highlight-from-left" to="/" v-bind:class="{ 'active-link': 'home' == $route.name }" title="Home">
+              <i class="fa fa-fw fa-home" aria-hidden="true"></i><span class="header-link-text link-text"> Home</span>
+            </router-link>
+          </li>
+          <li>
+            <router-link class="highlight-animation highlight-from-left" to="/about" v-bind:class="{ 'active-link': 'about' == $route.name }" title="About">
+              <i class="fa fa-fw fa-info" aria-hidden="true"></i><span class="header-link-text link-text"> About</span>
+            </router-link>
+          </li>
+          <li>
+            <router-link class="highlight-animation highlight-from-left" to="/archive" v-bind:class="{ 'active-link': 'archive' == $route.name || 'post-home' == $route.name }" title="Archive">
+              <i class="fa fa-fw fa-archive" aria-hidden="true"></i><span class="header-link-text link-text"> Archive</span>
+            </router-link>
+          </li>
+          <li>
+            <router-link class="highlight-animation highlight-from-left" to="/resume" v-bind:class="{ 'active-link': 'resume' == $route.name }" title="Resume">
+              <i class="fa fa-fw fa-clock-o" aria-hidden="true"></i><span class="header-link-text link-text"> Resume</span>
+            </router-link>
+          </li>
+          <li>
+            <router-link class="highlight-animation highlight-from-left" to="/contact" v-bind:class="{ 'active-link': 'contact' == $route.name }" title="Contact">
+              <i class="fa fa-fw fa-envelope" aria-hidden="true"></i><span class="header-link-text link-text"> Contact</span>
+            </router-link>
+          </li>
+          <li class="hide-on-desktop">
+            <linear-nav-button type="next" />
+          </li>
         </ul>
       </nav> 
     </header>
@@ -124,7 +148,8 @@ export default {
 
 }
 
-.wp_syntax table td {
+iframe, .table-overflow{
+   overflow-x: scroll;
 }
 
 .wp_syntax pre {
@@ -137,6 +162,9 @@ export default {
     border-radius: 0 !important;
     color: #ccc;
     overflow-x: scroll;
+    max-width: 100%;
+    white-space: pre-wrap; 
+    word-break: break-word;
   }
   article a{
     position: relative;
@@ -358,6 +386,40 @@ min-width:275px;
         transition-duration: 0.3s;
         transition-timing-function: ease-out;
       }
+
+
+
+      /* Priority of slide from bottom effect when at top menu on mobile, 
+         and always highlight active link on mobile (desktop has the labels instead) */
+      @media screen and (max-width : $desktopFromLeft ){
+        &.active-link::before{
+          transform: scaleX(1) scaleY(1) !important;
+        }
+        .site-header &{
+          &::before{
+            transform: scaleX(1) scaleY(0);
+            transform-origin: 50% 100%;
+            top: 0;
+            bottom: 0;
+            left: 0px;
+            right: 0px;
+          }
+          &:hover::before{
+            transform: scaleX(1) scaleY(1);
+          }
+        }
+      }
+      
+  }
+
+  .highlight-shutter-out{
+    &::before{
+      top:0px;
+      bottom:0px;
+      left:0px;
+      right:0px;
+      transform-origin: 50%;
+    }
   }
 
   .highlight-from-left{
@@ -377,11 +439,13 @@ min-width:275px;
   }
 
   .main-menu a {
-    box-shadow: 0px 3px 3px -2px rgba(0,0,0,.1);
-    padding: 0 .3em .3em;
+    // box-shadow: 0px 3px 3px -2px rgba(0,0,0,.1);
+    padding: 0 .3em .3em .3em;
+    border-bottom: 1px solid #eee;
 
     @media screen and (min-width: $desktop){
       padding: .25em;
+      border-bottom: 0;
       box-shadow: none;
       
       &::after{
@@ -445,27 +509,52 @@ div.aligncenter {
 }
 
 .alignright {
-    float:right;
-    margin: 5px 0 20px 20px;
+    display:block;
+    margin: 20px auto;
+    float: none;
+    @media screen and (min-width: $tablet){
+      float:right;
+      margin: 5px 0 20px 20px;
+    }
 }
 
 .alignleft {
-    float: left;
-    margin: 5px 20px 20px 0;
+    display:block;
+    margin: 20px auto;
+    float: none;
+    @media screen and (min-width: $tablet){
+      float: left;
+      margin: 5px 20px 20px 0;
+    }
 }
 
 a img.alignright {
-    float: right;
-    margin: 5px 0 20px 20px;
+    display:block;
+    margin: 20px auto;
+    float: none;
+    @media screen and (min-width: $tablet){
+      float: right;
+      margin: 5px 0 20px 20px;
+    }
 }
 
 a img.alignnone {
-    margin: 5px 20px 20px 0;
+    display:block;
+    margin: 20px auto;
+    float: none;
+    @media screen and (min-width: $tablet){
+      margin: 5px 20px 20px 0;
+    }
 }
 
 a img.alignleft {
-    float: left;
-    margin: 5px 20px 20px 0;
+    display:block;
+    margin: 20px auto;
+    float: none;
+    @media screen and (min-width: $tablet){
+      float: left;
+      margin: 5px 20px 20px 0;
+    }
 }
 
 a img.aligncenter {
@@ -560,7 +649,9 @@ article.post-list-item {
 }
 
 .post-list-item h3{
-  margin-top:0;
+  @media screen and (min-width: $tablet ){
+    margin-top:0;
+  }
 }
 
 .post-thumbnail {
@@ -575,6 +666,10 @@ article.post-list-item {
     }
 }
 
+.post-date{
+  margin: 1em 0;
+}
+
 .post-details {
     flex-basis: auto;
     @media screen and (min-width: $tablet ){
@@ -587,6 +682,25 @@ article.post-list-item {
 
 .button{
   cursor: pointer;
+}
+
+ul.related-posts {
+    list-style: none;
+    padding-left: 0;
+}
+
+li.related-post {
+    margin: 1em;
+}
+
+.related-post .post-title {
+    font-weight: bold;
+}
+
+.related-posts-area {
+    padding: 1em;
+    background-color: #f0f0f0;
+    margin: 4em 0 2em 0;
 }
 
 </style>

@@ -5,7 +5,7 @@
     <div v-if="!loading && postNotFound">No matching post was found.</div>
     <div v-if="!loading && !postNotFound" class="post-area">
       <div class="post-title-area">
-        <h1>{{ this.postData.title.rendered }}</h1>
+        <h1 v-html="this.postData.title.rendered "></h1>
         <div class="sub-info post-date">{{ this.postDate }}</div>
       </div>
       <div class="post-featured-image">
@@ -13,9 +13,28 @@
       </div>
       <article v-html="postData.content.rendered"></article>
     </div>
-    <div class="related-posts-area">
+    <div class="related-posts-area" v-if="postData['jetpack-related-posts'].length > 0">
+      <h3>Related posts:</h3>
       <ul class="related-posts">
           <li class="related-post" v-for="relatedPost in postData['jetpack-related-posts']" :key="'related-post-' + relatedPost.id">
+            <router-link :to="{ name: 'post', params: {slug: relatedPost.slug } }">
+              <article class="post-list-item">
+                <div class="post-thumbnail" v-bind:style="{ backgroundImage: 'url(' + relatedPost.img.src + ')' }">
+                </div>
+                <div class="post-details">
+                  <h3 v-html="relatedPost.title "></h3>
+                  <div class="sub-info post-date">{{ relatedPost.date }}</div>
+                  <!-- <div class="tags">
+                    <span class="tag" v-for="tag in post.tagsEmbedded" :key="'tag-' + tag.slug">
+                    {{ tag.name }}
+                    </span>
+                  </div> -->
+                  <!-- <div class="excerpt">
+                    {{ relatedPost.excerpt }}
+                  </div> -->
+                </div>
+                </article>
+            </router-link>
           </li>
       </ul>
     </div>

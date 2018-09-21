@@ -1,0 +1,19 @@
+{
+    "name": "tmdesigned",
+    "short_name": "tmdesigned",
+    "icons": [
+        {
+            "src": "/img/icons/android-chrome-192x192.png?v=Kmnw6mPlq6",
+            "sizes": "192x192",
+            "type": "image/png"
+        },
+        {
+            "src": "/img/icons/android-chrome-512x512.png?v=Kmnw6mPlq6",
+            "sizes": "512x512",
+            "type": "image/png"
+        }
+    ],
+    "theme_color": "#333333",
+    "background_color": "#333333",
+    "display": "standalone"
+}

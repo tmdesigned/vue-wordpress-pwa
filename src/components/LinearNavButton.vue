@@ -2,7 +2,9 @@
 <template>
   <div class="linear-nav-button">
     <div v-bind:class="{ 'linear-nav-prev': type == 'prev', 'linear-nav-next' : type == 'next' }" v-if="show">
-        <router-link class="highlight-animation linear-nav-button-inner" v-bind:class="{ 'highlight-from-left': type == 'prev', 'highlight-from-right' : type == 'next' }" :to="link"><i class="fa fa-fw" v-bind:class="{ 'fa-chevron-left': type == 'prev', 'fa-chevron-right' : type == 'next' }"></i><span class="link-text arrow-text-left">{{ linkText }}</span></router-link>
+        <router-link class="highlight-animation linear-nav-button-inner" v-bind:class="{ 'highlight-from-left': type == 'prev', 'highlight-from-right' : type == 'next' }" :to="link" v-bind:title="linkText">
+            <i class="fa fa-fw" v-bind:class="{ 'fa-chevron-left': type == 'prev', 'fa-chevron-right' : type == 'next' }"></i><span class="link-text arrow-text-left">{{ linkText }}</span>
+        </router-link>
     </div>
   </div>
 </template>
