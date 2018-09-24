@@ -48,6 +48,10 @@ export default new Router({
       name: 'resume',
       component: Page,
       meta: { slug : "resume" }
+    },
+    {
+      path: '*', 
+      redirect: '/' 
     }
   ]
 })
