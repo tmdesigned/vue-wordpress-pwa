@@ -100,7 +100,10 @@ export default {
           if( this.posts.hasOwnProperty( this.$route.params.slug ) ){
             this.postData = this.posts[ this.$route.params.slug ];
             this.postNotFound = false;
-
+            window.scrollTo({
+              top: 0,
+              behavior: 'auto'
+            });
           }else{
             this.postNotFound = true;
           }

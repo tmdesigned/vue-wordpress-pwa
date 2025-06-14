@@ -33,6 +33,13 @@ export default new Vuex.Store({
     posts: function( state ){
       return state.posts;
     },
+    postPage: function( state){
+      return function(page, perPage){
+        const offset = (page-1) * perPage;
+        const to = Math.min(page * perPage, state.postsByDate.length);
+        return state.postsByDate.slice(offset, to);
+      }
+    },
     category: function( state ){
       return function( id ){
         if ( state.categories.hasOwnProperty( id ) ){

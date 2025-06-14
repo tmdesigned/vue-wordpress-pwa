@@ -51,7 +51,7 @@ export default {
     return {
       loading : true,
       postsToShow : [],
-      currentPage : 0, 
+      currentPage : 1, 
       postsPerPage : 5
     }
   },
@@ -66,17 +66,17 @@ export default {
       return this.$store.state.postsByDate.length;
     },
     hasPrevious : function(){
-      return this.currentPage > 0;
+      return this.currentPage > 1;
     },
     hasNext : function(){
-      return ( this.currentPage + 1 ) * this.postsPerPage < this.totalPosts;
+      return ( this.currentPage ) * this.postsPerPage < this.totalPosts;
     },
     first : function(){
-      return this.postsPerPage * this.currentPage;
+      return (this.postsPerPage * (this.currentPage - 1)) + 1;
     },
     last : function(){
-      return this.postsPerPage * ( this.currentPage + 1 ) < this.totalPosts ? 
-                this.postsPerPage * ( this.currentPage + 1 ) : 
+      return (this.postsPerPage * ( this.currentPage )) < this.totalPosts ? 
+                (this.postsPerPage * ( this.currentPage )) : 
                 this.totalPosts > 0 ? 
                 this.totalPosts :
                 0;
@@ -110,15 +110,14 @@ export default {
     },
     updateShownPosts(){
       let ranges = {
-        page : this.currentPage + 1,
+        page : this.currentPage,
         perPage: this.postsPerPage
       }
       
       this.$store.dispatch( 'prepPostRange', ranges ).then( () => {
         if( this.last > 0 ){
           this.loading = false;
-          this.postsToShow = this.postsByDate.slice( this.first, this.last );
-
+          this.postsToShow = this.$store.getters.postPage(this.currentPage, this.postsPerPage)
         }
         
       });

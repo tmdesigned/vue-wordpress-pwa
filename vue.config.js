@@ -5,10 +5,10 @@ module.exports = {
             runtimeCaching: [{
                 // Match any request from our domain
                 // TODO:   googleapis and cloudflare
-                urlPattern: 'https://tmdesigned.com/wp/wp-content/.*',
+                urlPattern: new RegExp('https://tmdesigned.com/wp/wp-content/.*'),
             
                 // Apply a cache-first strategy.
-                handler: 'cacheFirst',
+                handler: 'CacheFirst',
             
                 options: {
                   // Use a custom cache name.
@@ -25,7 +25,7 @@ module.exports = {
                 urlPattern: 'https://tmdesigned.com/wp/wp-json/.*',
             
                 // Apply a cache-first strategy.
-                handler: 'networkFirst',
+                handler: 'NetworkFirst',
             
                 options: {
                   // Use a custom cache name.
@@ -37,7 +37,7 @@ module.exports = {
                 }
             }],
             navigateFallback : '/index.html',
-            navigateFallbackWhitelist: [/^(?!\/wp\/).*/]
+            navigateFallbackAllowlist: [/^(?!\/wp\/).*/]
         }
     }
 }

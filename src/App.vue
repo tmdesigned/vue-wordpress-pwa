@@ -4,7 +4,7 @@
     <header class="site-header">
         <div class="home-title" v-if=" 'home' == $route.name ">
           <h1 class="site-title">Taylor Morgan</h1>
-          <h3>Web Developer</h3>
+          <h3>@tmdesigned / Software Engineer</h3>
         </div>
       <nav id="nav" class="main-menu">
         <ul>
@@ -60,8 +60,6 @@ import Vue from 'vue';
 
 Vue.use( VueHead );
 
-import 'prismjs/themes/prism.css'
-import 'prismjs/themes/prism-twilight.css'
 
 
 export default {
