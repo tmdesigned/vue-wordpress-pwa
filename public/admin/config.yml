@@ -2,9 +2,8 @@ backend:
   name: github
   repo: tmdesigned/vue-wordpress-pwa
   branch: master
-  # Required for GitHub login. Deploy an OAuth proxy (e.g. sveltia-cms-auth or
-  # netlify-cms-oauth-provider) and set this to its URL.
-  base_url: https://YOUR-OAUTH-PROXY.example.com
+  # OAuth proxy (Cloudflare Worker running sveltia-cms-auth).
+  base_url: https://sveltia-cms-auth.taylor-morgan.workers.dev
 
 media_folder: public/img/uploads
 public_folder: /img/uploads
