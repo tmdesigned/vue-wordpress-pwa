@@ -37,7 +37,7 @@ So here are the principles, along with some changes I'd make.
 
 > Our highest priority is to satisfy the customer through early and continuous delivery of valuable software.
 
-My rewording of this would be, â€œOur highest priority is **to create value for the customer, as quickly as is responsible**.â€
+My rewording of this would be, “Our highest priority is **to create value for the customer, as quickly as is responsible**.”
 
 There are a couple of challenges here. The emphasis on early and continuous can lead to sacrificing quality, and developing for releasability is not always the right order.
 
@@ -73,7 +73,7 @@ I'd reshape this whole point in that direction. **"Conveying information require
 
 > Working software is the primary measure of progress.
 
-Working is vague. â€œ**An increase in the softwareâ€™s ability to provide value for the customer** is the primary measure of progress.â€
+Working is vague. “**An increase in the software’s ability to provide value for the customer** is the primary measure of progress.”
 
 ## The Biggest Change
 

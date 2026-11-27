@@ -17,7 +17,7 @@ Test Driven Development (TDD) employs this outlook from the very beginning. Rath
 //Test 1 - isNumberPrime should return a boolean value
 
 function isNumberPrime( num ){
-Â  Â  Â return true;
+     return true;
 }
 
 So our first test passes, and we move on by adding other tests that break our code, fixing it as we go.
@@ -26,12 +26,12 @@ So our first test passes, and we move on by adding other tests that break our co
 //Test 2 - 3 should return true and 4 should return false
 
 function isNumberPrime( num ){
-Â  Â  Â for( var i = num - 1; i > 1; i-- ){
-Â  Â  Â Â  Â  Â if ( num % i == 0 ){
-Â  Â  Â Â  Â  Â Â  Â  Â return false;
-Â  Â  Â Â  Â  Â }
-Â  Â  Â }
-Â  Â  Â return true;
+     for( var i = num - 1; i > 1; i-- ){
+          if ( num % i == 0 ){
+               return false;
+          }
+     }
+     return true;
 }
 
 This works for basic cases, but there are some obvious ones where it will completely break (i.e. negative numbers will be an infinite loop). Let's add a few more tests
@@ -42,14 +42,14 @@ This works for basic cases, but there are some obvious ones where it will comple
 //Test 4 - 0 should return false, 1 should return true
 
 function isNumberPrime( num ){
-Â  Â  Â if ( num < 1 ) return false;
-Â  Â  Â if ( num == 1 ) return true;
-Â  Â  Â for( var i = num - 1; i > 1; i-- ){
-Â  Â  Â Â  Â  Â if ( num % i == 0 ){
-Â  Â  Â Â  Â  Â Â  Â  Â return false;
-Â  Â  Â Â  Â  Â }
-Â  Â  Â }
-Â  Â  Â return true;
+     if ( num < 1 ) return false;
+     if ( num == 1 ) return true;
+     for( var i = num - 1; i > 1; i-- ){
+          if ( num % i == 0 ){
+               return false;
+          }
+     }
+     return true;
 }
 
 I added test 4 above so that our for-loop, which starts out with i at 1 less than our number, will never start out too low. That covers all integers. What about floats?
@@ -61,17 +61,17 @@ I added test 4 above so that our for-loop, which starts out with i at 1 less tha
 //Test 5 - 3.5 should return false
 
 function isNumberPrime( num ){
-Â  Â  Â if ( !Number.isInteger( num ) ){
-Â  Â  Â Â  Â  Â return false;
-Â  Â  Â }
-Â  Â  Â if ( num < 1 ) return false;
-Â  Â  Â if ( num == 1 ) return true;
-Â  Â  Â for( var i = num - 1; i > 1; i-- ){
-Â  Â  Â Â  Â  Â if ( num % i == 0 ){
-Â  Â  Â Â  Â  Â Â  Â  Â return false;
-Â  Â  Â Â  Â  Â }
-Â  Â  Â }
-Â  Â  Â return true;
+     if ( !Number.isInteger( num ) ){
+          return false;
+     }
+     if ( num < 1 ) return false;
+     if ( num == 1 ) return true;
+     for( var i = num - 1; i > 1; i-- ){
+          if ( num % i == 0 ){
+               return false;
+          }
+     }
+     return true;
 }
 
 I honestly thought it would already return false, but 3.5 returned true. This is because our code basically says, "For the number you gave me, keep subtracting 1, and see if that new number divides evenly into it. If you never find one that does, it is a prime number." Since none of a float's would, the code thought it was prime. We can just make sure our input is an integer.
@@ -86,25 +86,25 @@ Coming up with the tests is, of course, the challenge. You have to think of diff
 //Test 9 - 17 should return true  
 //Test 10 - 199 should return true
 
-Everything's looking great. Now, prime numbers get really huge really fast, and I know my function is not going to handle everything. But I also know it could be a lot more efficient. Take the input, 100,000,000. My code will do hundreds of thousands of division operations to test this out. Eventually it will figure it out when it gets down to 100,000,000 / 50,000,000 and finds an even division.Â  Yikes. I can tell you right away it's not prime, because it's an even number!
+Everything's looking great. Now, prime numbers get really huge really fast, and I know my function is not going to handle everything. But I also know it could be a lot more efficient. Take the input, 100,000,000. My code will do hundreds of thousands of division operations to test this out. Eventually it will figure it out when it gets down to 100,000,000 / 50,000,000 and finds an even division.  Yikes. I can tell you right away it's not prime, because it's an even number!
 
 So the second great thing about unit testing is once you have your code stable, you can begin optimizing it, a.k.a. refactoring.
 
 //Test 11 - 100000000 should return false
 
 function isNumberPrime( num ){
-Â  Â  Â if ( !Number.isInteger( num ) ){
-Â  Â  Â Â  Â  Â return false;
-Â  Â  Â }
-Â  Â  Â if ( num < 1 ) return false;
-Â  Â  Â if ( num == 1 ) return true;
-Â  Â  Â if ( num % 2 == 0 ) return false;
-Â  Â  Â for( var i = num - 1; i > 1; i-- ){
-Â  Â  Â Â  Â  Â if ( num % i == 0 ){
-Â  Â  Â Â  Â  Â Â  Â  Â return false;
-Â  Â  Â  Â  Â  }
-Â  Â  Â }
-Â  Â  Â return true;
+     if ( !Number.isInteger( num ) ){
+          return false;
+     }
+     if ( num < 1 ) return false;
+     if ( num == 1 ) return true;
+     if ( num % 2 == 0 ) return false;
+     for( var i = num - 1; i > 1; i-- ){
+          if ( num % i == 0 ){
+               return false;
+          }
+     }
+     return true;
 }
 
 The total time it took my unit tests to run went from 0.7 seconds down to .001 seconds. Testing 1 billion, the change took us from 6.5 seconds down to .001 seconds. Way better, and because all of our other tests are still in place, we know we haven't messed anything up!

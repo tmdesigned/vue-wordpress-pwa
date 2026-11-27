@@ -1,13 +1,13 @@
 ---
-title: "Wordpress Answer: Build a one-page navigation within a non-one-page tthemeâ€šÃ„Â¶"
+title: "Wordpress Answer: Build a one-page navigation within a non-one-page ttheme”šÄ¶"
 slug: "wordpress-answer-build-a-one-page-navigation-within-a-non-one-page-tthemea%c2%b6"
 date: "2019-03-02"
-excerpt: "## Original question: [Build a one-page navigation within a non-one-page tthemeâ€šÃ„Â¶](http://Wordpress.StackExchange.com/q/330458) * * * ## My answer: You can do exactly what you suggest. You do not need to create a separate menu or chang"
+excerpt: "## Original question: [Build a one-page navigation within a non-one-page ttheme”šÄ¶](http://Wordpress.StackExchange.com/q/330458) * * * ## My answer: You can do exactly what you suggest. You do not need to create a separate menu or chang"
 image: "/img/uploads/2020/11/sologo.png"
 tags:
 draft: false
 ---
-## Original question: [Build a one-page navigation within a non-one-page tthemeâ€šÃ„Â¶](http://Wordpress.StackExchange.com/q/330458)
+## Original question: [Build a one-page navigation within a non-one-page ttheme”šÄ¶](http://Wordpress.StackExchange.com/q/330458)
 
 * * *
 

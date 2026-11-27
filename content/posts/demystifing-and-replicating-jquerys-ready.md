@@ -10,18 +10,18 @@ draft: false
 ---
 ## The mystical .ready() function
 
-jQuery has become so popular that many new developers learn it right alongside JavaScript (sometimes, I suspect, in place of JavaScript). The .ready() function is one of the first lessons taught in many online courses, but with a focus on "how" instead of "why",Â its usersÂ may not fully understand its purpose. In fact, I've seenÂ many questions posted onlineÂ where the code was needlessly thrown into a .ready() block, even simple function declarations. More seasoned developers willÂ understand its properÂ usage, as well as its differences fromÂ the Window's ready event. But because of its ubiquitous usage, .ready() still maintainsÂ an almost mystical status. It's treated and talked about as if it were a special class of JavaScript code, some fundamental method built deep in the bowels of jQuery. We evenÂ memorize its invocation form like a grade-school definition: $(document).ready(function(){ ... }); But .ready() isÂ just a function! And what's more, it's not even that complex!
+jQuery has become so popular that many new developers learn it right alongside JavaScript (sometimes, I suspect, in place of JavaScript). The .ready() function is one of the first lessons taught in many online courses, but with a focus on "how" instead of "why", its users may not fully understand its purpose. In fact, I've seen many questions posted online where the code was needlessly thrown into a .ready() block, even simple function declarations. More seasoned developers will understand its proper usage, as well as its differences from the Window's ready event. But because of its ubiquitous usage, .ready() still maintains an almost mystical status. It's treated and talked about as if it were a special class of JavaScript code, some fundamental method built deep in the bowels of jQuery. We even memorize its invocation form like a grade-school definition: $(document).ready(function(){ ... }); But .ready() is just a function! And what's more, it's not even that complex!
 
 ## How .ready() really works
 
 Here's what it does:
 
 1.  Accepts a block of code as its argument
-2.  Is the document already ready? If so, run theÂ block of code from step 1.
+2.  Is the document already ready? If so, run the block of code from step 1.
 3.  If it's not ready, add the block of code to a holding array.
-4.  When the documentÂ IS ready, loop through the array and run the code in order.
+4.  When the document IS ready, loop through the array and run the code in order.
 
-The holding array technique is elegant and almost exactlyÂ as simple as it sounds. Here is the actual function definition from the early 1.2.3 version: \[code language="javascript"\] ready: function(fn) { // Attach the listeners bindReady(); // If the DOM is already ready if ( jQuery.isReady ) // Execute the function immediately fn.call( document, jQuery ); // Otherwise, remember the function for later else // Add the function to the wait list jQuery.readyList.push( function() { return fn.call(this, jQuery); } ); return this; } \[/code\] Then, using vanilla JavaScript's addEventListener, jQuery adds a DOMContentLoaded trigger to run the queued up code once the page is loaded. (Okay, it's a _little_ more complicated than that with browser compatibility and such, but this is easily 90% of the code.) So there you go, the $(document).ready spell is broken! It's just a queue, a standard little array. Now...what can we do with this knowledge? We can replicate it!
+The holding array technique is elegant and almost exactly as simple as it sounds. Here is the actual function definition from the early 1.2.3 version: \[code language="javascript"\] ready: function(fn) { // Attach the listeners bindReady(); // If the DOM is already ready if ( jQuery.isReady ) // Execute the function immediately fn.call( document, jQuery ); // Otherwise, remember the function for later else // Add the function to the wait list jQuery.readyList.push( function() { return fn.call(this, jQuery); } ); return this; } \[/code\] Then, using vanilla JavaScript's addEventListener, jQuery adds a DOMContentLoaded trigger to run the queued up code once the page is loaded. (Okay, it's a _little_ more complicated than that with browser compatibility and such, but this is easily 90% of the code.) So there you go, the $(document).ready spell is broken! It's just a queue, a standard little array. Now...what can we do with this knowledge? We can replicate it!
 
 ## Replicating jQuery's .ready() approach
 

@@ -66,14 +66,14 @@ As we were dividing the map, making it smaller and smaller, we were basically cr
                 1.  Small Area A
                 2.  Small Area B
 
-In other words, we have recursively **partitioned** out our **spaces** by dividing it into 2's (**binary**). A binary space partitioning. Within each of those Small Areas, we've now carved out an actual Room. To connect the rooms, we work our wayÂ _back upÂ_ the hierarchy, connecting each "sibling" with a random passage.Â 
+In other words, we have recursively **partitioned** out our **spaces** by dividing it into 2's (**binary**). A binary space partitioning. Within each of those Small Areas, we've now carved out an actual Room. To connect the rooms, we work our way _back up_ the hierarchy, connecting each "sibling" with a random passage. 
 
 1.  Dig out a tunnel between a room in each Small Area A and Small Area B
 2.  Dig out a tunnel between a room in each Medium Area A and Medium Area B
 3.  Dig out a tunnel between a room in each Big Area A and Big Area B
 4.  Dig out a tunnel between a room in each Huge Area A and Huge Area B
 
-And..that's it! There's now a network of rooms and passages.Â 
+And..that's it! There's now a network of rooms and passages. 
 
 ## Coding out a BSP Dungeon
 
@@ -87,7 +87,7 @@ I found it supremely helpful to do the abstract map generation with Object Orien
 
 This isn't terribly hard. You have to pick if each split is horizontal is vertical, and then pick where within the area's boundaries to draw the line. If there is going to be a minimum area size, you have to be that far away from the walls or you shouldn't split.
 
-After splitting, you have two new areas, each of which also need to be split, so on and so on until you reach the minimum specified room size or the max number of rooms.Â 
+After splitting, you have two new areas, each of which also need to be split, so on and so on until you reach the minimum specified room size or the max number of rooms. 
 
 Take a look in the split function above. It's basically doing what I just said -- choosing an orientation (not randomly here; instead the opposite of the node's parent's split direction), picking an axis position respecting the minimum room sizes given and the maximum number of rooms, and then splitting down to create two new nodes.
 
