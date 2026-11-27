@@ -93,7 +93,7 @@ What's more, real software is not just a bunch of code and algorithms placed sid
 
 Ben Thompson wrote [a great piece](https://stratechery.com/2022/ai-homework/) about ChatGPT and the future of AI-assisted homework. He argues that instead of fighting against students using AI, teachers should embrace it. He offers a great image for it as well:
 
-> one analogy for ChatGPTâ€™s output is that sort of poster we are all familiar with who asserts things authoritatively regardless of whether or not they are true. Verifying and editing is an essential skillset right now for every individual.
+> one analogy for ChatGPT’s output is that sort of poster we are all familiar with who asserts things authoritatively regardless of whether or not they are true. Verifying and editing is an essential skillset right now for every individual.
 
 He proposes giving students intentionally wrong output, and having them analyze the AI output for mistakes. A lot of what he says applies here, too, and that's almost exactly what I had to do in the code snippet above. It's a different skillset, but not an unfamiliar one: code reviews are an important part of modern software development, after all.
 

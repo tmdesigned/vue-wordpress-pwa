@@ -1,5 +1,5 @@
 ---
-title: "CSS, The Confusing Bits â€” Part 3: Positioning"
+title: "CSS, The Confusing Bits ”” Part 3: Positioning"
 slug: "css-the-confusing-bits-part-3-positioning"
 date: "2018-04-08"
 excerpt: "[Part 1 - Series Introduction](https://tmdesigned.com/post/css-the-confusing-bits-part-1-introduction/) [Part 2 - Z-Index](https://tmdesigned.com/post/css-the-confusing-bits-part-2-z-index/) Part 3 - Positioning Part 4 - Height and Width * "
@@ -14,15 +14,15 @@ Part 4 - Height and Width
 
 * * *
 
-Positioning is actually not terribly complicated once you read the specs. The problem is that most people don't, because it _usuallyÂ_ works just like you'd expect. When people need to deviate from normal, it's often a limited case and they can fiddle enough to get it to work. That's the trick with CSS--moving beyond individual use cases to a true understanding isn't immediately necessary, but is eventually important. Otherwise you end up scratching your head and blaming the browser.
+Positioning is actually not terribly complicated once you read the specs. The problem is that most people don't, because it _usually_ works just like you'd expect. When people need to deviate from normal, it's often a limited case and they can fiddle enough to get it to work. That's the trick with CSS--moving beyond individual use cases to a true understanding isn't immediately necessary, but is eventually important. Otherwise you end up scratching your head and blaming the browser.
 
 ## Positioning Modes
 
-*   **StaticÂ** \- This is the default mode. It means that the element will be positioned normally as it falls in the box-model. More on that below.
-*   **RelativeÂ** \- Starts with static, but you can adjust it from that point.
+*   **Static** \- This is the default mode. It means that the element will be positioned normally as it falls in the box-model. More on that below.
+*   **Relative** \- Starts with static, but you can adjust it from that point.
 *   **Absolute** \- Taken out of the normal flow of the page, and is instead attached to a parent's box-model positioning. More below.
-*   **FixedÂ** \- Taken out of the normal flow, but is attached to the viewport itself, meaning it won't even scroll up and down.
-*   **StickyÂ** \- Not in use yet.
+*   **Fixed** \- Taken out of the normal flow, but is attached to the viewport itself, meaning it won't even scroll up and down.
+*   **Sticky** \- Not in use yet.
 
 ## The Box Model
 
@@ -43,11 +43,11 @@ text-decoration: green wavy underline;
 
 As the browser gets ready to display the page, it goes through several steps. First it parses the HTML and the CSS. That's exactly what it sounds like, so we're going to skip it.
 
-Then, it creates theÂ **Render Tree**: "Here's every item I need to actually show the user, how all of those items relate to each other, and what CSS rules will apply to them." At this point the browser knows, for instance, that the h2 and the div.child are children of div.parent, and that they each have some style rules.
+Then, it creates the **Render Tree**: "Here's every item I need to actually show the user, how all of those items relate to each other, and what CSS rules will apply to them." At this point the browser knows, for instance, that the h2 and the div.child are children of div.parent, and that they each have some style rules.
 
 ![](/img/uploads/2018/04/positioning-fig-2.jpg)
 
-At this point, it does not know where each item will go, or how much space each item will take. That's the next phase,Â **reflow**. Here, it uses everything it learned to create theÂ **box-model**.
+At this point, it does not know where each item will go, or how much space each item will take. That's the next phase, **reflow**. Here, it uses everything it learned to create the **box-model**.
 
 ![](/img/uploads/2018/04/positioning-fig-3.jpg)
 
@@ -67,7 +67,7 @@ After the box model is done, the browser is ready to **paint**. This is an appli
 
 ## Positioning and the Box-Model
 
-So let's return to positioning, which is really about the 2nd phase, theÂ **box-model**. Positioning answers the question, how should items be positioned in the box-model?
+So let's return to positioning, which is really about the 2nd phase, the **box-model**. Positioning answers the question, how should items be positioned in the box-model?
 
 ### Position: Static
 
@@ -75,7 +75,7 @@ Position static is the default mode. It means that when the browser figures out 
 
 ### Position: Relative
 
-First the browser calculates how the elementÂ _would_ flow within the box-model, then other CSS rules can alter it. If there aren't any other positioning rules, there won't be a visible difference. (Although, there are a few differences.)
+First the browser calculates how the element _would_ flow within the box-model, then other CSS rules can alter it. If there aren't any other positioning rules, there won't be a visible difference. (Although, there are a few differences.)
 
 So if you have:
 
@@ -88,9 +88,9 @@ It will place the item in the box model, just skooched 10px over _from_ the left
 
 ![](/img/uploads/2018/04/positioning-fig-4.jpg)
 
-### Position: absoluteÂ **and Position: fixed**
+### Position: absolute **and Position: fixed**
 
-Absolute and fixed positioning work nearly the same way. The big change here is that they areÂ **removed** from the main box-model. They no longer have a place in it, and they don't affect the other items in it. That's a huge change!
+Absolute and fixed positioning work nearly the same way. The big change here is that they are **removed** from the main box-model. They no longer have a place in it, and they don't affect the other items in it. That's a huge change!
 
 Stop. Let's be clear about one thing. I said they don't affect the other items in the box-model. But they **do** maintain their place in the hierarchy of the DOM. They just don't affect the positioning of the other elements.
 
@@ -136,7 +136,7 @@ Absolute doesn't attach to the viewport. It attaches by default to the html elem
 
 However, unlike with fixed positioning, which always anchors to the viewport, the positioning context of absolute positioning can be changed. How? By giving one of it's ancestors position: relative. You do this even if you aren't relatively adjusting that parent's position.
 
-Put another way, an absolutely positioned element looksÂ **up** through it's ancestors and attaches itself to the first position: relative element it finds.
+Put another way, an absolutely positioned element looks **up** through it's ancestors and attaches itself to the first position: relative element it finds.
 
 I used to think this was arbitrary, as if setting position: relative on a parent was just a wink and a nod to the browser that we want absolute items anchored on it. But it really makes sense when you think of positioning contexts. Remember, relative positioning was saying "Figure out where this would normally go, and then adjust it." If we adjusted it 300 pixels to the right, all of it's children are adjusted as well -- or you might say, they're within it's positioning context.
 

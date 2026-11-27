@@ -68,12 +68,12 @@ PHP comes with cryptographically strong encryption functionality, openssl, which
 
 You don't need a master's degree in cryptography to use these functions and set this up. With just these 4 functions, our basic flow is this:
 
-1.  Create a private key ONE TIME, and store it securely on the server (i.e. in a hidden php variable). We useÂ **openssl\_random\_pseudo\_bytes** for this.
-2.  Each time we need to create a custom token (i.e. send a custom link), we store whatever data we need in a string. JSON is a natural choice.Â I create a separate, token-generating form for this process. Here we're just using JavaScript.
-3.  Before we can encrypt it, we also need something called an an initialization vector each time we want to encrypt something -- the AES encryption method mixes each chunk of the data with the previous chunk. So...the first chunk needs something random to mix with. We store that vector as well as the encrypted data, since we need it to start the unraveling process, and these two together make up the token.Â **openssl\_cipher\_iv\_lengthÂ** gets us the right length to feed toÂ **openssl\_random\_pseudo\_bytes**, which we're now using a second time.
+1.  Create a private key ONE TIME, and store it securely on the server (i.e. in a hidden php variable). We use **openssl\_random\_pseudo\_bytes** for this.
+2.  Each time we need to create a custom token (i.e. send a custom link), we store whatever data we need in a string. JSON is a natural choice. I create a separate, token-generating form for this process. Here we're just using JavaScript.
+3.  Before we can encrypt it, we also need something called an an initialization vector each time we want to encrypt something -- the AES encryption method mixes each chunk of the data with the previous chunk. So...the first chunk needs something random to mix with. We store that vector as well as the encrypted data, since we need it to start the unraveling process, and these two together make up the token. **openssl\_cipher\_iv\_length** gets us the right length to feed to **openssl\_random\_pseudo\_bytes**, which we're now using a second time.
 4.  Now we encrypt it, which requires that private key and the vector we made. Here we use **openssl\_encrypt**.
 5.  We save the token, and send it in a link as part of the URL.
-6.  When it's fed back to us (i.e. the user clicks the link), we decrypt the string using the SAME init vector, and the SAME private key, using **openssl\_decrypt**.Â Hey, look! It's our old friend, JSON string!
+6.  When it's fed back to us (i.e. the user clicks the link), we decrypt the string using the SAME init vector, and the SAME private key, using **openssl\_decrypt**. Hey, look! It's our old friend, JSON string!
 7.  We do whatever we need to do with the data (i.e. JSON.parse it, then populate the form with it, etc.)
 8.  If we need to submit those same values, we pass through the encrypted token to make sure the data it contains is untouched.
 
@@ -81,9 +81,9 @@ For a nearly-complete code example, see the link below which shows all 4 of thos
 
 That's all there is to it! We can now generate a unique token using our special, employees-only form. Inside of that encrypted data is all of the protected information we don't want our prospective employee screwing around with. From the end-user's perspective, the applicant is just receiving a tailor-made custom link. As a bonus, if we've also used it to pre-populate his name, address, etc., he'll be even more impressed with our company for seeming like we have our HR act together.
 
-_P.S. The limit for a URL is 4KB. So including our actual URL location, we have 4KB of encrypted data we can store. URL's are ASCII text, which is 1 byte per character. So that means our total is 4,000 characters. In my real-world case that led to this post, I stored 16 property/value pairs in a JSON object, and encrypted it came out to 800 characters including the initialization vector.Â_ 
+_P.S. The limit for a URL is 4KB. So including our actual URL location, we have 4KB of encrypted data we can store. URL's are ASCII text, which is 1 byte per character. So that means our total is 4,000 characters. In my real-world case that led to this post, I stored 16 property/value pairs in a JSON object, and encrypted it came out to 800 characters including the initialization vector._ 
 
-Â   
+   
 Special thanks to:  
   
 [https://blog.turret.io/the-missing-php-aes-encryption-example/](https://blog.turret.io/the-missing-php-aes-encryption-example/)

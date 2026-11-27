@@ -18,7 +18,7 @@ Coders typically start out learning simple loops, like "for" and "while", to pro
 
 When you filter a list, you are trying to eliminate items that you don't want.
 
-\[code language="javascript"\] var myArray = \[{ "id": "3401341", "category": "blue", â€¦ },{ "id": "3354541", "category": "red", â€¦ },{ "id": "4401341", "category": "blue", â€¦ }\]; var resultArray = myArray.filter( function myCallback(item) { return item.category === 'blue'; });\[/code\]
+\[code language="javascript"\] var myArray = \[{ "id": "3401341", "category": "blue", ”¦ },{ "id": "3354541", "category": "red", ”¦ },{ "id": "4401341", "category": "blue", ”¦ }\]; var resultArray = myArray.filter( function myCallback(item) { return item.category === 'blue'; });\[/code\]
 
 So we've started with an array of 3 items, each with an id, a category, and some other properties not shown.
 
@@ -34,7 +34,7 @@ That uses an arrow function for brevity, and the shortcut of automatically retur
 
 When you use map on a list, you're transforming each element, but keeping all of them.
 
-\[code language="javascript"\]var myArray = \[{ "id": "3401341", "category": "blue", â€¦ },{ "id": "3354541", "category": "red", â€¦ },{ "id": "4401341", "category": "blue", â€¦ }\]; var resultArray = myArray.map( function myCallback(item) { item.orderProcessed = true; return item; });\[/code\]
+\[code language="javascript"\]var myArray = \[{ "id": "3401341", "category": "blue", ”¦ },{ "id": "3354541", "category": "red", ”¦ },{ "id": "4401341", "category": "blue", ”¦ }\]; var resultArray = myArray.map( function myCallback(item) { item.orderProcessed = true; return item; });\[/code\]
 
 Similar to before, we have the same starting array and we write a callback function that gets used for every item in the list.
 
@@ -42,11 +42,11 @@ Here, we're adding an "orderProcessed" property to each item. I don't even know 
 
 Written more concisely, the last line could be:
 
-\[code language="javascript"\]const resultArray = myArray.map( item => { return {â€¦item,orderProcessed:true}; });\[/code\]
+\[code language="javascript"\]const resultArray = myArray.map( item => { return {”¦item,orderProcessed:true}; });\[/code\]
 
 Here we're using the spread (...) operator, which just takes each of the properties of the object out. We shove them right back into a new object we're creating, along with the added orderProcessed property. If we accidentally wrote: return {item, orderProcessed:true} without the ..., then our final items would look like this:
 
-\[code language="javascript"\]{ { "id": "3401341", "color": "blue", â€¦ }, "orderProcessed" : true }\[/code\]
+\[code language="javascript"\]{ { "id": "3401341", "color": "blue", ”¦ }, "orderProcessed" : true }\[/code\]
 
 So we don't want that nesting, we just want orderProcessed to be right alongside the other properties. The spread operator (...) strips the original properties out, and then we put them all back in together.
 
@@ -58,7 +58,7 @@ Reduce loops through each item in the array as well. But as it does so, it passe
 
 Most basic examples of reduce are around pulling some combined value out of the objects. Like this:
 
-\[code language="javascript"\] var myArray = \[{ "id": "3401341", "category": "blue", "value": 3, â€¦ },{ "id": "3354541", "category": "red", "value": 2, â€¦ } ,{ "id": "4401341", "category": "blue", "value": 5 â€¦ }\]; var result = myArray.reduce( function myCallback(accumulator,item) { return accumulator + item.value; }, 0);\[/code\]
+\[code language="javascript"\] var myArray = \[{ "id": "3401341", "category": "blue", "value": 3, ”¦ },{ "id": "3354541", "category": "red", "value": 2, ”¦ } ,{ "id": "4401341", "category": "blue", "value": 5 ”¦ }\]; var result = myArray.reduce( function myCallback(accumulator,item) { return accumulator + item.value; }, 0);\[/code\]
 
 This time our callback function gets 2 arguments, the accumulator (pass-along object), and then each item like before. There's also an easy-to-miss 2nd argument for the whole reduce function. See the 0 right at the end? That's the starting value for the pass-along object.
 
@@ -90,7 +90,7 @@ That's okay. But with an array of 1,000's of items, I've now looped through them
 
 Reduce can do this job better! We just use a pass-along object that is, itself, an array.
 
-\[code language="javascript"\]const filteredIds = myArray.reduce( (accumulator, item) => { if ( item.category=== 'blue' ){ return \[â€¦accumulator, item.id\]; } return accumulator; }, \[\]);\[/code\]
+\[code language="javascript"\]const filteredIds = myArray.reduce( (accumulator, item) => { if ( item.category=== 'blue' ){ return \[”¦accumulator, item.id\]; } return accumulator; }, \[\]);\[/code\]
 
 Same resulting array!
 

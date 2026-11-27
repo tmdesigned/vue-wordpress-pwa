@@ -23,7 +23,7 @@ But, to answer your question if you remove that gallery, as I did in the link ab
 
 ```
 <script>
-    $(".slideshow_image").on("load", function()Â¬â€ {
+    $(".slideshow_image").on("load", function()¬” {
       $(this).next().fadeOut("slow");
     });
 </script>

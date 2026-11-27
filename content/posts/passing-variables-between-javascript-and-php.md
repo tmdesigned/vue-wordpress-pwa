@@ -9,7 +9,7 @@ tags:
   - "PHP"
 draft: false
 ---
-JavaScript and PHP share many similarities but are fundamentally different. JavaScript code is compiled and executed by the user's browser (at least in the case of websites, although JavaScript can be run on other devices and even by the server with Node.js). PHP, however, is compiled and executed by the server. By the time the user receives the page, the PHP isÂ _gone_. There's absolutely no trace of it on the page. This makes it ideal for secure processing of data, database interactions, user authentication, and basically anything else you don't want users to see, touch, or know about. Understanding that basic difference is fundamental, because often for a web application to work the two languages have to interact. Since one is completely done and gone before the other even starts, you have to think of things differently depending on which direction you want to go.
+JavaScript and PHP share many similarities but are fundamentally different. JavaScript code is compiled and executed by the user's browser (at least in the case of websites, although JavaScript can be run on other devices and even by the server with Node.js). PHP, however, is compiled and executed by the server. By the time the user receives the page, the PHP is _gone_. There's absolutely no trace of it on the page. This makes it ideal for secure processing of data, database interactions, user authentication, and basically anything else you don't want users to see, touch, or know about. Understanding that basic difference is fundamental, because often for a web application to work the two languages have to interact. Since one is completely done and gone before the other even starts, you have to think of things differently depending on which direction you want to go.
 
 ## From PHP to JavaScript
 
@@ -17,16 +17,16 @@ This is the simplest of the two directions, and there's really two different way
 
 ### Direct PHP to JavaScript injection
 
-Since PHP is done before JavaScript starts, this first method essentially has PHP plop it out right in the middle of the JavaScript. \[code language="javascript"\] var userIsRegistered = false; <?php if( Â ...some php code here ... ) echo "userIsRegistered = true;"; ?> \[/code\]So we have some conditional logic, but all that's happening before the page is sent to the browser. All the browser will see is: \[code language="javascript"\] var userIsRegistered = false; userIsRegistered = true; \[/code\] Or, it won't see the second line if the conditional fails. We make sure to always declare the JavaScript variable ahead of time to account for either case. What are the cons here? Well first of all, it's a little clunky. We're mixing languages, trying to keep everything separate, and our end result is kind of funny. Second, we have a possible performance bottleneck. If ...some php code here... involves a complicated query, we're waiting.
+Since PHP is done before JavaScript starts, this first method essentially has PHP plop it out right in the middle of the JavaScript. \[code language="javascript"\] var userIsRegistered = false; <?php if(  ...some php code here ... ) echo "userIsRegistered = true;"; ?> \[/code\]So we have some conditional logic, but all that's happening before the page is sent to the browser. All the browser will see is: \[code language="javascript"\] var userIsRegistered = false; userIsRegistered = true; \[/code\] Or, it won't see the second line if the conditional fails. We make sure to always declare the JavaScript variable ahead of time to account for either case. What are the cons here? Well first of all, it's a little clunky. We're mixing languages, trying to keep everything separate, and our end result is kind of funny. Second, we have a possible performance bottleneck. If ...some php code here... involves a complicated query, we're waiting.
 
 ### AJAX Requests
 
-A little cleaner, but a lot more work, is to create aÂ _separate_ PHP file whose sole purpose is to feed our data.What we're really doing here is messing with the timing of our scripts. Normally, it goes:
+A little cleaner, but a lot more work, is to create a _separate_ PHP file whose sole purpose is to feed our data.What we're really doing here is messing with the timing of our scripts. Normally, it goes:
 
 1.  PHP
 2.  JavaScript
 
-But if at some point JavaScript calls a separate PHP file,Â _that_ is when that PHP runs. So instead we have:
+But if at some point JavaScript calls a separate PHP file, _that_ is when that PHP runs. So instead we have:
 
 1.  PHP
 2.  JavaScript

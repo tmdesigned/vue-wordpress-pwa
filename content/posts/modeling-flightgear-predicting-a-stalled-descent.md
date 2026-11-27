@@ -7,11 +7,11 @@ image: "/img/uploads/2025/05/image-3.png"
 tags:
 draft: false
 ---
-As part of a my job interview last year with GTRI, I was required to create a tech talk presentation. I developed a short proof of concept project that combines flight simulation, data collection, and machine learning to predict a stalled descent using FlightGear. In this post, Iâ€™ll follow the basic layout of the presentation I gave that walks through the project, so...this may be a bit PowerPoint-y.
+As part of a my job interview last year with GTRI, I was required to create a tech talk presentation. I developed a short proof of concept project that combines flight simulation, data collection, and machine learning to predict a stalled descent using FlightGear. In this post, I’ll follow the basic layout of the presentation I gave that walks through the project, so...this may be a bit PowerPoint-y.
 
 ## 1\. FlightGear Intro & Data Collection
 
-FlightGear is a powerful open-source flight simulator built for a wide range of usersâ€”researchers, educators, engineers, hobbyists, and anyone interested in flight dynamics. What makes it particularly valuable for data-driven work is its flexibility and support for real-time telemetry logging.
+FlightGear is a powerful open-source flight simulator built for a wide range of users””researchers, educators, engineers, hobbyists, and anyone interested in flight dynamics. What makes it particularly valuable for data-driven work is its flexibility and support for real-time telemetry logging.
 
 ![](https://lh7-rt.googleusercontent.com/slidesz/AGV_vUfUpoPeRikB25wI9Vv9UmXzxUHvowC1WK1g67evV7kj1Y_9ZYpMjXWFw7emxzscR0S6KmUSTs3cyZOO665qbnMXxTY-yiH4rghCPrRK0ph2PplBFr2BUHCIU3-4b8wwvOBL4PVM3i0T7rSTqTay2mN8I0JPnw=s2048?key=GwJVSz3NzV3bTypwZDWmNg)
 
@@ -22,9 +22,9 @@ For this project, I used:
 *   **Aircraft**: Beechcraft 1900D (a 19-passenger twin-engine turboprop)
 *   **Starting point**: Cincinnati/Northern Kentucky International Airport (CVG)
 
-FlightGear allows users to define a configuration XML file at launch to control what telemetry is collected, the logging frequency, and the output format. I configured the simulator to log key flight parametersâ€”including latitude, longitude, altitude, roll, pitch, heading, and airspeedâ€”at a 10ms interval.
+FlightGear allows users to define a configuration XML file at launch to control what telemetry is collected, the logging frequency, and the output format. I configured the simulator to log key flight parameters””including latitude, longitude, altitude, roll, pitch, heading, and airspeed””at a 10ms interval.
 
-These logs are part of FlightGearâ€™s internal property tree and can be streamed to a CSV file. This data formed the basis for the analysis and modeling work that followed.
+These logs are part of FlightGear’s internal property tree and can be streamed to a CSV file. This data formed the basis for the analysis and modeling work that followed.
 
 ![](https://lh7-rt.googleusercontent.com/slidesz/AGV_vUdHiIwbfFh1waVQL7JVzdPfKOg6vT9SxTohEP6urLdAqEAcsGSk0PXrLzUf_wwJTd2keb8XUimENYwjJTX32dSfTJ5w4dA8wmPc97sukoqXqOxS-ty18ZoWjXkDKslM5rMaIhN5Tw9Wph4xl1NTRi35aDIWL1A=s2048?key=GwJVSz3NzV3bTypwZDWmNg)
 
@@ -36,7 +36,7 @@ In the 3d plot below you are seeing the actual path of the plane in 3d real spac
 
 ![](/img/uploads/2025/05/image-4.png)
 
-For visualizing flight paths and behavior over time, **Plotly** provided a convenient way to build interactive charts that made patternsâ€”such as altitude changes and trajectory deviationsâ€”easy to interpret.
+For visualizing flight paths and behavior over time, **Plotly** provided a convenient way to build interactive charts that made patterns””such as altitude changes and trajectory deviations””easy to interpret.
 
 This initial visual inspection helped verify data quality, assess the completeness of each flight log, and establish a sense of how stall events appear in the raw data. It also provided early hints at irregularities in the logging interval, which became a key issue later.
 
@@ -49,7 +49,7 @@ Although I specified a 10ms logging interval, the actual output was far from con
 *   Mean: ~0.0099s
 *   Standard deviation: ~0.0121s
 
-This kind of irregularity matters because many machine learning modelsâ€”including recurrent neural networks (RNNs)â€”assume uniform time steps. Irregular intervals can lead to misalignment in temporal sequences, reduce model performance, and introduce misleading correlations.
+This kind of irregularity matters because many machine learning models””including recurrent neural networks (RNNs)””assume uniform time steps. Irregular intervals can lead to misalignment in temporal sequences, reduce model performance, and introduce misleading correlations.
 
 ![](https://lh7-rt.googleusercontent.com/slidesz/AGV_vUfLBhS0JMKmLe3qRXQ89ECOFqbe_K4YBW--GJUuKdAjf8-ir9hZFMRDtHNkGHqif-dXi9mRp2XZiyWjn1kgXp8E-J-Kzs4qdUpao11hB0p8fDRGGmqRoL-r2tsU2w0IJNozSD6EC0F2oGwFCB61hEZjCOyxAw=s2048?key=GwJVSz3NzV3bTypwZDWmNg)
 
@@ -67,11 +67,11 @@ Running the simulator at lower resolution (e.g., 800x600), disabling visual effe
 
 For the logged data, I ended up using techniques like forward-filling and interpolation to standardize time intervals. These helped smooth over irregularities and maintain the temporal integrity of the data. Preprocessing data is normal, but obviously less ideal as it can bias and subtly alter the data set.
 
-In the long term, modifying FlightGearâ€™s source code could provide more robust telemetry handling. I dove into the source code a bit and found both an easy fix (removing "catch up" entries) and a more important long term fix (using a multithreaded logging system that separates data collection from rendering and other simulator processes).
+In the long term, modifying FlightGear’s source code could provide more robust telemetry handling. I dove into the source code a bit and found both an easy fix (removing "catch up" entries) and a more important long term fix (using a multithreaded logging system that separates data collection from rendering and other simulator processes).
 
 ## 4\. Training a Stall Predictor
 
-The core goal of this project was to predict when a flight was entering a **stalled descent**. A stall occurs when the aircraftâ€™s angle of attack exceeds a critical limit, causing a loss of lift. Itâ€™s not directly tied to speedâ€”rather, it depends on the combination of speed and the angle required to maintain lift. As the aircraft slows down, it needs a higher angle of attack, and thatâ€™s when stalls can happen.
+The core goal of this project was to predict when a flight was entering a **stalled descent**. A stall occurs when the aircraft’s angle of attack exceeds a critical limit, causing a loss of lift. It’s not directly tied to speed””rather, it depends on the combination of speed and the angle required to maintain lift. As the aircraft slows down, it needs a higher angle of attack, and that’s when stalls can happen.
 
 ![](/img/uploads/2025/05/image.png)
 
@@ -164,7 +164,7 @@ Not bad! Here the trained model correctly identifies 2 pre-stall events without 
 
 ## 5\. Real-Time Integration with FlightGear
 
-Another goal might be to integrate the stall predictor back into the simulator to support real-time alerts during flight. FlightGearâ€™s flexible architecture makes this plausible. I created a lightweight Python script that could monitor ongoing telemetry, run inference using the trained model, and issue a warning if a stall pattern is detected.
+Another goal might be to integrate the stall predictor back into the simulator to support real-time alerts during flight. FlightGear’s flexible architecture makes this plausible. I created a lightweight Python script that could monitor ongoing telemetry, run inference using the trained model, and issue a warning if a stall pattern is detected.
 
 ![](/img/uploads/2025/05/image-2.png)
 
@@ -194,6 +194,6 @@ Here are a few areas I see as important next steps:
 
 ## References
 
-*   Introduction â€“ FlightGear Flight Simulator. [https://www.flightgear.org/about/](https://www.flightgear.org/about/)
+*   Introduction ”“ FlightGear Flight Simulator. [https://www.flightgear.org/about/](https://www.flightgear.org/about/)
 *   TensorFlow. Time series forecasting. [https://www.tensorflow.org/tutorials/structured\_data/time\_series](https://www.tensorflow.org/tutorials/structured_data/time_series)
-*   Weerakody, P. B., Wong, K. W., Wang, G., & Ela, W. (2021). A review of irregular time series data handling with gated recurrent neural networks. _Neurocomputing, 441_, 161â€“178.
+*   Weerakody, P. B., Wong, K. W., Wang, G., & Ela, W. (2021). A review of irregular time series data handling with gated recurrent neural networks. _Neurocomputing, 441_, 161”“178.

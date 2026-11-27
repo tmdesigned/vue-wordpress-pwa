@@ -18,7 +18,7 @@ You can put svg text right in the prev\_text and next\_text.
 To make it a little more readable here I've broken it up and prepared the SVG markup first. I am only show you the "prev" link but the "next" would work the same way.
 
 ```
-$prev_label = "<span class='cover--nav-label'>" . _e('Recette prâˆšÂ©câˆšÂ©dente', 'marque') . "</span>";
+$prev_label = "<span class='cover--nav-label'>" . _e('Recette pr∈š©c∈š©dente', 'marque') . "</span>";
 
 $prev_arrow = "<svg class='icon icon-arrow-prev' role='presentation' focusable='false'><use xlink_href='" . get_template_directory_uri() . "/images/symbol-defs.svg#icon-arrow-prev'></use></svg>";
 
