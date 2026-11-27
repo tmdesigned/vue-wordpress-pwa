@@ -2,13 +2,14 @@
 module.exports = {
     pwa : {
         workboxOptions : {
+            exclude: [/\.map$/, /manifest\.json$/, 'index.php'],
             runtimeCaching: [{
                 // Match any request from our domain
                 // TODO:   googleapis and cloudflare
                 urlPattern: new RegExp('https://tmdesigned.com/wp/wp-content/.*'),
             
                 // Apply a cache-first strategy.
-                handler: 'CacheFirst',
+                handler: 'NetworkFirst',
             
                 options: {
                   // Use a custom cache name.
@@ -36,7 +37,7 @@ module.exports = {
                   }
                 }
             }],
-            navigateFallback : '/index.html',
+            navigateFallback : '/index.php',
             navigateFallbackAllowlist: [/^(?!\/wp\/).*/]
         }
     }

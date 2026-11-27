@@ -17,7 +17,7 @@ if (preg_match('/^\/post\/([^\/]+)/', $requestUri, $matches)) {
         $title = htmlspecialchars($post['title']['rendered']);
         $description = htmlspecialchars(strip_tags($post['excerpt']['rendered']));
         $image = $post['_embedded']['wp:featuredmedia'][0]['source_url'] ?? '/default-image.jpg'; // fallback
-        $url = "https://tmdesigned.com$post['link']";
+        $url = "https://tmdesigned.com{$post['link']}";
     }
 }
 ?>
