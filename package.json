@@ -1,32 +1,35 @@
 {
-  "name": "tmdesigned",
-  "version": "0.1.0",
-  "private": true,
-  "scripts": {
-    "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint"
-  },
-  "dependencies": {
-    "eslint-plugin-vue": "^10.2.0",
-    "prismjs": "^1.30.0",
-    "register-service-worker": "^1.7.2",
-    "rxjs": "^7.8.2",
-    "vue": "^2.7.16",
-    "vue-head": "^2.2.0",
-    "vue-resource": "^1.5.3",
-    "vue-router": "^3.6.5",
-    "vuex": "^3.6.2"
-  },
-  "devDependencies": {
-    "@babel/eslint-parser": "^7.27.5",
-    "@vue/cli-plugin-babel": "^5.0.8",
-    "@vue/cli-plugin-eslint": "^5.0.8",
-    "@vue/cli-plugin-pwa": "^5.0.8",
-    "@vue/cli-service": "^5.0.8",
-    "sass": "^1.89.2",
-    "sass-loader": "^16.0.5",
-    "vue-template-compiler": "^2.7.16",
-    "webpack": "^5.99.9"
-  }
+    "name": "tmdesigned",
+    "version": "0.1.0",
+    "private": true,
+    "scripts": {
+        "serve": "vue-cli-service serve",
+        "build": "vue-cli-service build",
+        "lint": "vue-cli-service lint",
+        "prebuild": "node scripts/build-content.js",
+        "preserve": "node scripts/build-content.js"
+    },
+    "dependencies": {
+        "eslint-plugin-vue": "^10.2.0",
+        "gray-matter": "^4.0.3",
+        "marked": "^4.3.0",
+        "prismjs": "^1.30.0",
+        "register-service-worker": "^1.7.2",
+        "rxjs": "^7.8.2",
+        "vue": "^2.7.16",
+        "vue-head": "^2.2.0",
+        "vue-router": "^3.6.5",
+        "vuex": "^3.6.2"
+    },
+    "devDependencies": {
+        "@babel/eslint-parser": "^7.27.5",
+        "@vue/cli-plugin-babel": "^5.0.8",
+        "@vue/cli-plugin-eslint": "^5.0.8",
+        "@vue/cli-plugin-pwa": "^5.0.8",
+        "@vue/cli-service": "^5.0.8",
+        "sass": "^1.89.2",
+        "sass-loader": "^16.0.5",
+        "vue-template-compiler": "^2.7.16",
+        "webpack": "^5.99.9"
+    }
 }

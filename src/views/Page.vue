@@ -1,14 +1,11 @@
-
 <template>
   <div class="page">
-      {{ $route.params.slug }}
-    <div v-if="loading">LOADING</div>
-    <div v-if="!loading && pageNotFound">No matching page was found.</div>
-    <div v-if="!loading && !pageNotFound" class="page-area">
+    <div v-if="pageNotFound">No matching page was found.</div>
+    <div v-else class="page-area">
       <div class="page-title-area">
-        <h1>{{ this.pageData.title.rendered }}</h1>
+        <h1>{{ pageData.title }}</h1>
       </div>
-      <article v-html="pageData.content.rendered"></article>
+      <article v-html="pageData.content"></article>
     </div>
   </div>
 </template>
@@ -17,47 +14,12 @@
 
 export default {
   name: 'page',
-  data : function(){
-    return {
-      loading : false,
-      pageNotFound : false,
-      pageData : {
-        title : {
-          rendered : ''
-        },
-        content : {
-          rendered : ''
-        }
-      }
-    }
-  },
-  mounted : function(){
-    this.preparePage();
-  },
-  computed : {
-    pages : function(){
-      return this.$store.state.pages;
+  computed: {
+    pageData() {
+      return this.$store.state.pages[this.$route.meta.slug] || {};
     },
-    slug : function(){
-        return this.$route.meta.slug;
-    }
-  },
-  methods : {
-    preparePage : function(){
-        this.$store.dispatch( 'prepPage', this.$route.meta.slug ).then( () => {
-          this.loading = false;
-          if( this.pages.hasOwnProperty( this.$route.meta.slug ) ){
-            this.pageData = this.pages[ this.$route.meta.slug ];
-            this.pageNotFound = false;
-          }else{
-            this.pageNotFound = true;
-          }
-        });
-    }
-  },
-  watch :{
-    pages : function(){
-      this.preparePage();
+    pageNotFound() {
+      return !this.$store.state.pages.hasOwnProperty(this.$route.meta.slug);
     }
   }
 }

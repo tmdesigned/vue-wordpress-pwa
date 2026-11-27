@@ -1,0 +1,33 @@
+{
+  "posts": [
+    {
+      "slug": "hello-world",
+      "title": "Hello World",
+      "date": "2026-11-27T00:00:00.000Z",
+      "excerpt": "The first post on the new markdown-powered site.",
+      "featured_image": "/img/icons/android-chrome-512x512.png",
+      "tags": [
+        "meta"
+      ],
+      "content": "<p>This site&#39;s content is now plain markdown in the repo. Each post is a file in <code>content/posts/</code>, and each page is a file in <code>content/pages/</code>.</p>\n",
+      "draft": false
+    }
+  ],
+  "pages": [
+    {
+      "slug": "about",
+      "title": "About",
+      "content": "<p>Hi, I&#39;m Taylor Morgan, a software engineer exploring the techniques and technologies powering the modern web.</p>\n"
+    },
+    {
+      "slug": "contact",
+      "title": "Contact",
+      "content": "<p>Get in touch through the links on this site.</p>\n"
+    },
+    {
+      "slug": "resume",
+      "title": "Resume",
+      "content": "<p>Resume coming soon.</p>\n"
+    }
+  ]
+}

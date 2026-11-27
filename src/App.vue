@@ -63,18 +63,9 @@ Vue.use( VueHead );
 
 
 export default {
-  created : function(){
-    this.getPosts(); //fetch blog list right when app starts
-  },
   components : {
     LinearNav,
     LinearNavButton
-  },
-  methods: {
-    getPosts() {
-      this.$store.dispatch('fetchInitialData').then(() => {
-      });
-    }
   },
   head: {
     title: function () {

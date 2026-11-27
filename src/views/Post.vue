@@ -1,127 +1,42 @@
-
 <template>
   <div class="post">
-    <div v-if="loading">LOADING</div>
-    <div v-if="!loading && postNotFound">No matching post was found.</div>
-    <div v-if="!loading && !postNotFound" class="post-area">
+    <div v-if="postNotFound">No matching post was found.</div>
+    <div v-else class="post-area">
       <div class="post-title-area">
-        <h1 v-html="this.postData.title.rendered "></h1>
-        <div class="sub-info post-date">{{ this.postDate }}</div>
+        <h1>{{ postData.title }}</h1>
+        <div class="sub-info post-date">{{ postDate }}</div>
       </div>
-      <div class="post-featured-image">
-        <img :src="postData.featuredImage" alt="" aria-hidden="true">
+      <div v-if="postData.featured_image" class="post-featured-image">
+        <img :src="postData.featured_image" alt="" aria-hidden="true">
       </div>
-      <article v-html="postData.content.rendered"></article>
-    </div>
-    <div class="related-posts-area" v-if="postData['jetpack-related-posts'].length > 0">
-      <h3>Related posts:</h3>
-      <ul class="related-posts">
-          <li class="related-post" v-for="relatedPost in postData['jetpack-related-posts']" :key="'related-post-' + relatedPost.id">
-            <router-link :to="{ name: 'post', params: {slug: relatedPost.slug } }">
-              <article class="post-list-item">
-                <div class="post-thumbnail" v-bind:style="{ backgroundImage: 'url(' + relatedPost.img.src + ')' }">
-                </div>
-                <div class="post-details">
-                  <h3 v-html="relatedPost.title "></h3>
-                  <div class="sub-info post-date">{{ relatedPost.date }}</div>
-                  <!-- <div class="tags">
-                    <span class="tag" v-for="tag in post.tagsEmbedded" :key="'tag-' + tag.slug">
-                    {{ tag.name }}
-                    </span>
-                  </div> -->
-                  <!-- <div class="excerpt">
-                    {{ relatedPost.excerpt }}
-                  </div> -->
-                </div>
-                </article>
-            </router-link>
-          </li>
-      </ul>
+      <article v-html="postData.content"></article>
     </div>
   </div>
 </template>
 
 <script>
+import { formatDate } from '@/utils/format-date.js';
 
 export default {
   name: 'post',
-  data : function(){
-    return {
-      loading : false,
-      postNotFound : false,
-      postData : {
-        featuredImage : '',
-        title : {
-          rendered : ''
-        },
-        content : {
-          rendered : ''
-        },
-        "jetpack-related-posts" : []
-      }
+  computed: {
+    postData() {
+      return this.$store.getters.postListingBySlug(this.$route.params.slug) || {};
+    },
+    postNotFound() {
+      return !this.$store.state.posts.hasOwnProperty(this.$route.params.slug);
+    },
+    postDate() {
+      return formatDate(this.postData.date);
     }
   },
-  mounted : function(){
-    this.preparePost();
-  },
-  computed : {
-    posts : function(){
-      return this.$store.state.posts;
-    },
-    postDate : function(){
-      let date = new Date( this.postData.date );
-      if( isNaN(date.getTime()) ) return '';
-      var month = new Array();
-        month[0] = "January";
-        month[1] = "February";
-        month[2] = "March";
-        month[3] = "April";
-        month[4] = "May";
-        month[5] = "June";
-        month[6] = "July";
-        month[7] = "August";
-        month[8] = "September";
-        month[9] = "October";
-        month[10] = "November";
-        month[11] = "December";
-      let m = month[ date.getMonth() ];
-      let d = date.getDate();
-      let y = date.getFullYear();
-      return m + ' ' + d + ', ' + y;
-    },
-    postListing : function(){
-      return this.$store.getters.postListingBySlug( this.postData.slug );
+  watch: {
+    $route() {
+      window.scrollTo({ top: 0, behavior: 'auto' });
     }
   },
-  methods : {
-    preparePost : function(){
-        this.$store.dispatch( 'prepPost', this.$route.params.slug ).then( () => {
-          this.loading = false;
-          if( this.posts.hasOwnProperty( this.$route.params.slug ) ){
-            this.postData = this.posts[ this.$route.params.slug ];
-            this.postNotFound = false;
-            window.scrollTo({
-              top: 0,
-              behavior: 'auto'
-            });
-          }else{
-            this.postNotFound = true;
-          }
-        });
-    }
-  },
-  watch :{
-    posts : function(){
-      this.preparePost();
-    },
-    postListing : function( val ){
-      if( val && val.hasOwnProperty( 'featured_image' ) ){
-        this.postData.featuredImage = val.featured_image;
-      }
-    },
-    $route : function(){
-      this.preparePost();
-    }
+  mounted() {
+    window.scrollTo({ top: 0, behavior: 'auto' });
   }
 }
 </script>

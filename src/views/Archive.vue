@@ -17,8 +17,8 @@
                 <div class="post-thumbnail" v-bind:style="{ backgroundImage: 'url(' + post.featured_image + ')' }">
                 </div>
                 <div class="post-details">
-                  <h3 v-html="post.title"></h3>
-                  <div class="sub-info post-date">{{ post.postDate }}</div>
+                  <h3>{{ post.title }}</h3>
+                  <div class="sub-info post-date">{{ formatDate(post.date) }}</div>
                   <!-- <div class="tags">
                     <span class="tag" v-for="tag in post.tagsEmbedded" :key="'tag-' + tag.slug">
                     {{ tag.name }}
@@ -44,6 +44,7 @@
 </template>
 
 <script>
+import { formatDate } from '@/utils/format-date.js';
 
 export default {
   name: 'archive',
@@ -96,6 +97,7 @@ export default {
     }
   },
   methods :{
+    formatDate : formatDate,
     nextPage : function(){
       if( this.hasNext ){
         this.currentPage++;
@@ -109,18 +111,8 @@ export default {
       }
     },
     updateShownPosts(){
-      let ranges = {
-        page : this.currentPage,
-        perPage: this.postsPerPage
-      }
-      
-      this.$store.dispatch( 'prepPostRange', ranges ).then( () => {
-        if( this.last > 0 ){
-          this.loading = false;
-          this.postsToShow = this.$store.getters.postPage(this.currentPage, this.postsPerPage)
-        }
-        
-      });
+      this.loading = false;
+      this.postsToShow = this.$store.getters.postPage(this.currentPage, this.postsPerPage);
     }
   }
 }
