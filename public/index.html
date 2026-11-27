@@ -1,26 +1,3 @@
-<?php
-// Get current path
-$requestUri = $_SERVER['REQUEST_URI'];
-$matches = [];
-
-// Check if it's a post route like /post/slug
-if (preg_match('/^\/post\/([^\/]+)/', $requestUri, $matches)) {
-    $slug = $matches[1];
-
-    // Fetch post from WP API by slug
-    $apiUrl = "https://tmdesigned.com/wp/wp-json/wp/v2/posts?slug=" . urlencode($slug) . "&_embed=1";
-    $response = @file_get_contents($apiUrl);
-    $postData = json_decode($response, true);
-
-    if (!empty($postData)) {
-        $post = $postData[0];
-        $title = htmlspecialchars($post['title']['rendered']);
-        $description = htmlspecialchars(strip_tags($post['excerpt']['rendered']));
-        $image = $post['_embedded']['wp:featuredmedia'][0]['source_url'] ?? '/default-image.jpg'; // fallback
-        $url = "https://tmdesigned.com{$post['link']}";
-    }
-}
-?>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -36,27 +13,25 @@ if (preg_match('/^\/post\/([^\/]+)/', $requestUri, $matches)) {
     <link rel="manifest" href="/img/icons/site.webmanifest?v=Kmnw6mPlq6">
     <link rel="mask-icon" href="/img/icons/safari-pinned-tab.svg?v=Kmnw6mPlq6" color="#333333">
     <link rel="shortcut icon" href="/img/icons/favicon.ico?v=Kmnw6mPlq6">
-    <meta name="apple-mobile-web-app-title" content="tmdesigned">
     <meta name="application-name" content="tmdesigned">
     <meta name="msapplication-TileColor" content="#333333">
-    <meta name="msapplication-TileImage" content="/img/icons/mstile-144x144.png?v=Kmnw6mPlq6"
-    ><meta name="msapplication-config" content="/img/icons/browserconfig.xml?v=Kmnw6mPlq6">
-    <meta name="theme-color" content="#333333">    
-    <meta property="og:title" content="<?= $title ?? 'tmdesigned' ?>" />
-    <meta property="og:image" content="<?= $image ?? '' ?>" />
-    <meta property="og:url" content="<?= $url ?? 'https://tmdesigned.com' ?>" />
+    <meta name="msapplication-TileImage" content="/img/icons/mstile-144x144.png?v=Kmnw6mPlq6">
+    <meta name="msapplication-config" content="/img/icons/browserconfig.xml?v=Kmnw6mPlq6">
+    <meta name="theme-color" content="#333333">
+    <meta property="og:title" content="tmdesigned" />
+    <meta property="og:url" content="https://tmdesigned.com" />
 
-    <meta name="description" content="<?= $description ?? 'Join Taylor Morgan, software engineer, in an exploration of the techniques and technologies powering the modern web.' ?>">
+    <meta name="description" content="Join Taylor Morgan, software engineer, in an exploration of the techniques and technologies powering the modern web.">
     <title>tmdesigned</title>
     <!-- Global site tag (gtag.js) - Google Analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=UA-1698820-5"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-1698820-5"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
 
-  gtag('config', 'UA-1698820-5');
-</script>
+      gtag('config', 'UA-1698820-5');
+    </script>
   </head>
   <body>
     <noscript>
@@ -66,4 +41,3 @@ if (preg_match('/^\/post\/([^\/]+)/', $requestUri, $matches)) {
     <!-- built files will be auto injected -->
   </body>
 </html>
-
