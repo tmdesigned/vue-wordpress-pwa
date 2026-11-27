@@ -1,0 +1,39 @@
+backend:
+  name: github
+  repo: tmdesigned/vue-wordpress-pwa
+  branch: master
+  # Required for GitHub login. Deploy an OAuth proxy (e.g. sveltia-cms-auth or
+  # netlify-cms-oauth-provider) and set this to its URL.
+  base_url: https://YOUR-OAUTH-PROXY.example.com
+
+media_folder: public/img/uploads
+public_folder: /img/uploads
+
+collections:
+  - name: posts
+    label: Posts
+    folder: content/posts
+    create: true
+    slug: "{{slug}}"
+    identifier_field: title
+    summary: "{{title}} ({{date}})"
+    fields:
+      - { label: Title, name: title, widget: string }
+      - { label: Slug, name: slug, widget: string, hint: "URL path, e.g. hello-world" }
+      - { label: Date, name: date, widget: datetime, format: "YYYY-MM-DD" }
+      - { label: Excerpt, name: excerpt, widget: text, required: false }
+      - { label: Featured image, name: image, widget: image, required: false }
+      - { label: Tags, name: tags, widget: list, required: false }
+      - { label: Draft, name: draft, widget: boolean, default: false }
+      - { label: Body, name: body, widget: markdown }
+
+  - name: pages
+    label: Pages
+    folder: content/pages
+    create: false
+    slug: "{{slug}}"
+    identifier_field: title
+    fields:
+      - { label: Title, name: title, widget: string }
+      - { label: Slug, name: slug, widget: string, hint: "about, contact, or resume" }
+      - { label: Body, name: body, widget: markdown }
