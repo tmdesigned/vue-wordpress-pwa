@@ -21,8 +21,92 @@ Here's what it does:
 3.  If it's not ready, add the block of code to a holding array.
 4.  When the document IS ready, loop through the array and run the code in order.
 
-The holding array technique is elegant and almost exactly as simple as it sounds. Here is the actual function definition from the early 1.2.3 version: \[code language="javascript"\] ready: function(fn) { // Attach the listeners bindReady(); // If the DOM is already ready if ( jQuery.isReady ) // Execute the function immediately fn.call( document, jQuery ); // Otherwise, remember the function for later else // Add the function to the wait list jQuery.readyList.push( function() { return fn.call(this, jQuery); } ); return this; } \[/code\] Then, using vanilla JavaScript's addEventListener, jQuery adds a DOMContentLoaded trigger to run the queued up code once the page is loaded. (Okay, it's a _little_ more complicated than that with browser compatibility and such, but this is easily 90% of the code.) So there you go, the $(document).ready spell is broken! It's just a queue, a standard little array. Now...what can we do with this knowledge? We can replicate it!
+The holding array technique is elegant and almost exactly as simple as it sounds. Here is the actual function definition from the early 1.2.3 version:
+
+```javascript
+ready: function(fn) {
+  // Attach the listeners
+  bindReady();
+
+  // If the DOM is already ready
+  if ( jQuery.isReady )
+    // Execute the function immediately
+    fn.call( document, jQuery );
+
+  // Otherwise, remember the function for later
+  else
+    // Add the function to the wait list
+    jQuery.readyList.push( function() {
+      return fn.call(this, jQuery);
+    });
+
+  return this;
+}
+```
+
+Then, using vanilla JavaScript's addEventListener, jQuery adds a DOMContentLoaded trigger to run the queued up code once the page is loaded. (Okay, it's a _little_ more complicated than that with browser compatibility and such, but this is easily 90% of the code.) So there you go, the $(document).ready spell is broken! It's just a queue, a standard little array. Now...what can we do with this knowledge? We can replicate it!
 
 ## Replicating jQuery's .ready() approach
 
-If you have ever written a module using asynchronous code, you know that it's hard to make your code accessible to junior developers. To use your code, they too have to understand how async works. I've written many an explanation of basic promise syntax into readme files, and I still had little faith that it would be used properly. Instead, we can duplicate an approach with which even entry-level users are familiar. Let's take the example of geocoding some addresses. We don't want to tell our map to plot out the points until the addresses have been converted to latitude/longitude, and this will involve waiting on an API to get back to us. First, we need some variables: \[code language="javascript"\] //Stores if the lookup phase is complete var isLookupComplete = false; //Stores functions to execute once ready (that the user can provide) var readyFunctions = \[\]; \[/code\] Nothing too complex there. We'll also set up our final function that will loop through and run any code that has been queued up, once we're ready. \[code language="javascript"\] //Run any queued up functions (i.e. from user) function runReadyFunctions(){ for(var i=0;i<readyFunctions.length;i++){ readyFunctions\[i\].call(document); } readyFunctions = \[\]; } \[/code\] The third piece is the .ready() function that will accept code from the developer. It's like any other function accepting an argument, but we do need to make sure it's given an actual function. \[code language="javascript"\] function addReadyFunc(newFunc){ //make sure we've been given a function if(typeof newFunc != 'function'){ return; } //go ahead and run it if we're already done if(isLookupComplete){ newFunc.call(document); }else{ //otherwise store it in an array readyFunctions.push(newFunc); } } \[/code\] After making sure it's given a function, we just have to see if the lookup is already complete (i.e. we're already 'ready'). If so, we go ahead and run the code on the fly. Otherwise we add it to the array. We'll "rename" the function to "ready" when we export it from our module. Finally, we trigger the ready state once the call to the API is finished. \[code language="javascript"\] ... // promise returning our async API data ).then(function(){ isLookupComplete = true; runReadyFunctions(); }); \[/code\] This will run all of our queued up code once our promise is resolved. Note that we also store that the lookup is complete so that future calls to our ready function will run immediately. That's it! It's elegantly simply and super helpful for other developers extending our code. They don't have to worry about async at all. In fact, their usage might be as simple as: \[code language="javascript"\] myGeocoder.ready(function(){ //Lat and lng coordinates are ready, plot them on map here ... }); \[/code\] That's a much easier library to pick up and run, and it really didn't cost us much time or effort. It's certainly not a new idea, but if you're going to stand on the shoulders of giants, jQuery is about as solid of a giant as you can find!
+If you have ever written a module using asynchronous code, you know that it's hard to make your code accessible to junior developers. To use your code, they too have to understand how async works. I've written many an explanation of basic promise syntax into readme files, and I still had little faith that it would be used properly. Instead, we can duplicate an approach with which even entry-level users are familiar. Let's take the example of geocoding some addresses. We don't want to tell our map to plot out the points until the addresses have been converted to latitude/longitude, and this will involve waiting on an API to get back to us. First, we need some variables:
+
+```javascript
+//Stores if the lookup phase is complete
+var isLookupComplete = false;
+
+//Stores functions to execute once ready (that the user can provide)
+var readyFunctions = [];
+```
+
+Nothing too complex there. We'll also set up our final function that will loop through and run any code that has been queued up, once we're ready.
+
+```javascript
+//Run any queued up functions (i.e. from user)
+function runReadyFunctions(){
+  for(var i=0;i<readyFunctions.length;i++){
+    readyFunctions[i].call(document);
+  }
+  readyFunctions = [];
+}
+```
+
+The third piece is the .ready() function that will accept code from the developer. It's like any other function accepting an argument, but we do need to make sure it's given an actual function.
+
+```javascript
+function addReadyFunc(newFunc){
+  //make sure we've been given a function
+  if(typeof newFunc != 'function'){
+    return;
+  }
+
+  //go ahead and run it if we're already done
+  if(isLookupComplete){
+    newFunc.call(document);
+  }else{
+    //otherwise store it in an array
+    readyFunctions.push(newFunc);
+  }
+}
+```
+
+After making sure it's given a function, we just have to see if the lookup is already complete (i.e. we're already 'ready'). If so, we go ahead and run the code on the fly. Otherwise we add it to the array. We'll "rename" the function to "ready" when we export it from our module. Finally, we trigger the ready state once the call to the API is finished.
+
+```javascript
+...
+// promise returning our async API data
+).then(function(){
+  isLookupComplete = true;
+  runReadyFunctions();
+});
+```
+
+This will run all of our queued up code once our promise is resolved. Note that we also store that the lookup is complete so that future calls to our ready function will run immediately. That's it! It's elegantly simply and super helpful for other developers extending our code. They don't have to worry about async at all. In fact, their usage might be as simple as:
+
+```javascript
+myGeocoder.ready(function(){
+  //Lat and lng coordinates are ready, plot them on map here
+  ...
+});
+```
+
+That's a much easier library to pick up and run, and it really didn't cost us much time or effort. It's certainly not a new idea, but if you're going to stand on the shoulders of giants, jQuery is about as solid of a giant as you can find!

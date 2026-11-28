@@ -41,19 +41,65 @@ The minimum allowed value we want to allow is 2000 grams, or 2kg. So, we must al
 
 ### WeightForm.jsx
 
-\[code language="javascript"\]import React, { useState } from "react"; import WeightInput from "./WeightInput"; const WeightForm = () => { const \[weightInGrams, setWeightInGrams\] = useState(2000); const updateWeight = (val) => { setWeightInGrams(val); }; return ( <>
+```javascript
+import React, { useState } from "react";
+import WeightInput from "./WeightInput";
 
-Parent weightInGrams: {weightInGrams}
+const WeightForm = () => {
+  const [weightInGrams, setWeightInGrams] = useState(2000);
 
-); }; export default WeightForm; \[/code\]
+  const updateWeight = (val) => {
+    setWeightInGrams(val);
+  };
+
+  return ( /* JSX markup was lost in the WordPress export; only the script survived */ );
+};
+
+export default WeightForm;
+```
 
 ### WeightInput.jsx
 
-\[code language="javascript"\]import React, { useState, useEffect, useCallback } from "react"; import \_ from "lodash"; const WeightInput = ({ value, min, updateWeight }) => { const \[weightInKg, setWeightInKg\] = useState(0); useEffect(() => { const weightInKg = gramsToKilograms(value); setWeightInKg(weightInKg); }, \[value\]); const debouncedUpdate = useCallback( \_.debounce((val) => updateParent(val), 600), \[\] ); const kilogramsToGrams = (kilograms) => kilograms \* 1000; const gramsToKilograms = (grams) => grams / 1000; const updateParent = (weightInKg) => { let weightInG = kilogramsToGrams(weightInKg); if (weightInG < min) { weightInG = min; } updateWeight(weightInG); setWeightInKg(gramsToKilograms(weightInG)); }; const handleChange = (e) => { const inputWeightInKg = e.target.value; setWeightInKg(inputWeightInKg); debouncedUpdate(inputWeightInKg); }; return (
+```javascript
+import React, { useState, useEffect, useCallback } from "react";
+import _ from "lodash";
 
-Weight in Kilograms: 
+const WeightInput = ({ value, min, updateWeight }) => {
+  const [weightInKg, setWeightInKg] = useState(0);
 
-); }; export default WeightInput; \[/code\]
+  useEffect(() => {
+    const weightInKg = gramsToKilograms(value);
+    setWeightInKg(weightInKg);
+  }, [value]);
+
+  const debouncedUpdate = useCallback(
+    _.debounce((val) => updateParent(val), 600),
+    []
+  );
+
+  const kilogramsToGrams = (kilograms) => kilograms * 1000;
+  const gramsToKilograms = (grams) => grams / 1000;
+
+  const updateParent = (weightInKg) => {
+    let weightInG = kilogramsToGrams(weightInKg);
+    if (weightInG < min) {
+      weightInG = min;
+    }
+    updateWeight(weightInG);
+    setWeightInKg(gramsToKilograms(weightInG));
+  };
+
+  const handleChange = (e) => {
+    const inputWeightInKg = e.target.value;
+    setWeightInKg(inputWeightInKg);
+    debouncedUpdate(inputWeightInKg);
+  };
+
+  return ( /* JSX markup was lost in the WordPress export; only the script survived */ );
+};
+
+export default WeightInput;
+```
 
 We create a debounced copy of our update function "updateParent" (here using lodash), such that it is only called once the user has finished typing. In this case, we bump their value to the minimum if they have entered too small a number. In case we had to do this, we also update the local displayed value.
 

@@ -13,7 +13,28 @@ I've always considered CSS to be the wild factor of the 4 web design "quadrangle
 But CSS...CSS lives in the wild. It has such capabilities, from simple layout to amazing animations, and it's _rapidly_ developing. There's even a spec for it, and you can read (in not so pleasant terms) how each of the standards should really work. But out in the wild world of multiple browsers and differing implementations, CSS behaves in unexpected ways. A lot.
 
 An obvious example is the flexbox display model. Take a flex container and simple element:  
-\[code language="css"\] .flex-container{ min-height:15em; display:flex; align-items:center; background-color:blue; } .flex-item{ height:5em; background-color:red; flex-grow:1; } \[/code\]\[code language="html5"\] <div class="main-content"> <div class="flex-container"> <div class="flex-item"> </div> </div> </div> \[/code\]
+```css
+.flex-container{
+  min-height:15em;
+  display:flex;
+  align-items:center;
+  background-color:blue;
+}
+.flex-item{
+  height:5em;
+  background-color:red;
+  flex-grow:1;
+}
+```
+
+```html
+<div class="main-content">
+  <div class="flex-container">
+    <div class="flex-item">
+    </div>
+  </div>
+</div>
+```
 
 \[caption id="attachment\_549" align="aligncenter" width="640"\]![](/img/uploads/2017/09/flex-ex1-1024x167.jpg) Ex. 1 - The red flex item is centered vertically, as it should be\[/caption\]
 

@@ -31,7 +31,15 @@ Now we're getting somewhere! The WordPress way is to let WordPress handle enquei
 
 ## D. Enqueue the assets as in C, but add conditions so that it only happens on certain pages
 
-This is by far the most common solution I see posted on the Internet. You mitigate the disadvantage of C and avoid loading it on every page by adding conditions in PHP where you enqueue the file. \[code language="php"\] if( is\_front\_page() || is\_page( 35 ) || is\_page\_template( 'page-contact-us.php' ) ){ wp\_enqueue\_script( 'form-validator' ); } \[/code\] The problem here is that it starts off simple, but quickly grows more complex. Another page needs that asset? Modify the conditional statement. Duplicate the page it so that it gets a new ID? I hope you wrote your conditionals flexibly. Don't get me wrong -- this is an appropriate solution in a lot of cases. But it doesn't have to be this messy!
+This is by far the most common solution I see posted on the Internet. You mitigate the disadvantage of C and avoid loading it on every page by adding conditions in PHP where you enqueue the file.
+
+```php
+if( is_front_page() || is_page( 35 ) || is_page_template( 'page-contact-us.php' ) ){
+  wp_enqueue_script( 'form-validator' );
+}
+```
+
+The problem here is that it starts off simple, but quickly grows more complex. Another page needs that asset? Modify the conditional statement. Duplicate the page it so that it gets a new ID? I hope you wrote your conditionals flexibly. Don't get me wrong -- this is an appropriate solution in a lot of cases. But it doesn't have to be this messy!
 
 ## E. Use the better, more WordPress-y way
 
@@ -39,11 +47,23 @@ What's the better, more WordPress-y way to conditionally enqueue? Hooks! Your ow
 
 1\. In your page template (or widget, plugin, etc.  -- wherever you want to use the assets ) add a do\_action line. Seriously, just throw it in there.
 
-\[code language="php"\]do\_action( 'application\_assets' ); \[/code\]
+```php
+do_action( 'application_assets' );
+```
 
 2\. In your functions.php file, tie into the hook you just created to enqueue the assets
 
-\[code language="php"\]add\_action( 'application\_assets', 'enqueue\_application\_assets' ); function enqueue\_application\_assets(){ wp\_enqueue\_script( 'form-validator', ..... wp\_enqueue\_style( 'form-style', ..... wp\_enqueue\_script( 'masked-input', .... }\[/code\] What are doing here is simple, Whenever we want these assets to be used, we're telling WordPress, "Hey, right here, if anybody has any 'application\_assets' code they want to run, please do it.". What 'application\_assets' code did we tell WordPress we wanted to run? The enqueue-ing of those assets. (It technically happens in the reverse order -- first WordPress add\_actions the actions, then it do\_actions them.) _Edit: It's actually nearly as good to use a function call here, something like enqueue\_application\_assets() which you would define in your functions.php file. You know, like the name suggests. However, I tend to use the hooks pattern instead, because that way other code in other places can also tie into this action. There's not a ton of difference with the exception that a function can only live in one place, and that one place therefore must control whatever happens, whereas a hook can have unlimited functions tied to it. Either way is fine._ Let's compare it to our earlier methods:
+```php
+add_action( 'application_assets', 'enqueue_application_assets' );
+
+function enqueue_application_assets(){
+  wp_enqueue_script( 'form-validator', .....
+  wp_enqueue_style( 'form-style', .....
+  wp_enqueue_script( 'masked-input', ....
+}
+```
+
+What are doing here is simple, Whenever we want these assets to be used, we're telling WordPress, "Hey, right here, if anybody has any 'application\_assets' code they want to run, please do it.". What 'application\_assets' code did we tell WordPress we wanted to run? The enqueue-ing of those assets. (It technically happens in the reverse order -- first WordPress add\_actions the actions, then it do\_actions them.) _Edit: It's actually nearly as good to use a function call here, something like enqueue\_application\_assets() which you would define in your functions.php file. You know, like the name suggests. However, I tend to use the hooks pattern instead, because that way other code in other places can also tie into this action. There's not a ton of difference with the exception that a function can only live in one place, and that one place therefore must control whatever happens, whereas a hook can have unlimited functions tied to it. Either way is fine._ Let's compare it to our earlier methods:
 
 *   Does it run on every page?
     *   No, it runs specifically on the pages we want it.

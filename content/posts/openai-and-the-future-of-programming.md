@@ -29,7 +29,66 @@ Here's an example:
 
 And the result:
 
-\[code language="c"\]#include #include // A linked list node typedef struct Node { int data; struct Node\* next; } Node; // Returns a new linked list with n randomly chosen items from the // original list. The new linked list items will have their memory // allocated correctly and will not point to the original list's items. // // The original linked list is not modified. Node\* random\_sublist(Node\* head, int n) { // Seed the random number generator srand(time(NULL)); // Initialize the new list Node\* new\_head = NULL; Node\* new\_tail = NULL; // Iterate through the original list Node\* current = head; while (current != NULL) { // Generate a random number in the range \[0, 1\] double r = (double)rand() / RAND\_MAX; // If the random number is less than the probability of selecting // this item, add it to the new list if (r < (double)n / current\_position) { // Allocate memory for the new node Node\* new\_node = (Node\*)malloc(sizeof(Node)); if (new\_node == NULL) { // Handle allocation failure // ... } // Copy the data from the original node to the new node new\_node->data = current->data; new\_node->next = NULL; // Add the new node to the end of the new list if (new\_head == NULL) { new\_head = new\_node; } else { new\_tail->next = new\_node; } new\_tail = new\_node; } // Move to the next node in the original list current = current->next; } return new\_head; } \[/code\]
+```c
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+
+// A linked list node
+typedef struct Node {
+  int data;
+  struct Node* next;
+} Node;
+
+// Returns a new linked list with n randomly chosen items from the
+// original list. The new linked list items will have their memory
+// allocated correctly and will not point to the original list's items.
+//
+// The original linked list is not modified.
+Node* random_sublist(Node* head, int n) {
+  // Seed the random number generator
+  srand(time(NULL));
+
+  // Initialize the new list
+  Node* new_head = NULL;
+  Node* new_tail = NULL;
+
+  // Iterate through the original list
+  Node* current = head;
+  while (current != NULL) {
+    // Generate a random number in the range [0, 1]
+    double r = (double)rand() / RAND_MAX;
+
+    // If the random number is less than the probability of selecting
+    // this item, add it to the new list
+    if (r < (double)n / current_position) {  // NOTE: current_position is undefined in the original post text
+      // Allocate memory for the new node
+      Node* new_node = (Node*)malloc(sizeof(Node));
+      if (new_node == NULL) {
+        // Handle allocation failure
+        // ...
+      }
+
+      // Copy the data from the original node to the new node
+      new_node->data = current->data;
+      new_node->next = NULL;
+
+      // Add the new node to the end of the new list
+      if (new_head == NULL) {
+        new_head = new_node;
+      } else {
+        new_tail->next = new_node;
+      }
+      new_tail = new_node;
+    }
+
+    // Move to the next node in the original list
+    current = current->next;
+  }
+
+  return new_head;
+}
+```
 
 This is incredibly impressive. It's clear, well-commented, and mostly correct. There are some errors, including the fact that it accidentally switches its "current" variable for a "current\_position" variable, and then oddly wants to use the current position to determine the probability of an item being selected.
 

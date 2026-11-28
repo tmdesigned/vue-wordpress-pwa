@@ -74,4 +74,34 @@ So on the one hand, it looks more complex because there is more "talking" betwee
 
 This helpful little utility class handles all the dirty work of an event bus. You simply have to use it! Credit goes to [Pierfrancesco Soffritti](https://pierfrancescosoffritti.com/) 
 
-\[code language="javascript"\] function EventBus() { const eventCallbacksPairs = \[\]; this.subscribe = function( eventType, callback ) { const eventCallbacksPair = findEventCallbacksPair(eventType); if(eventCallbacksPair) eventCallbacksPair.callbacks.push(callback); else eventCallbacksPairs.push( new EventCallbacksPair(eventType, callback) ); } this.post = function( eventType, args ) { const eventCallbacksPair = findEventCallbacksPair(eventType); if(!eventCallbacksPair) { console.error("no subscribers for event " +eventType); return; } eventCallbacksPair.callbacks.forEach( callback => callback(args) ); } function findEventCallbacksPair(eventType) { return eventCallbacksPairs.find( eventObject => eventObject.eventType === eventType ); } function EventCallbacksPair( eventType, callback ) { this.eventType = eventType; this.callbacks = \[callback\]; } }\[/code\]
+```javascript
+function EventBus() {
+  const eventCallbacksPairs = [];
+
+  this.subscribe = function( eventType, callback ) {
+    const eventCallbacksPair = findEventCallbacksPair(eventType);
+    if(eventCallbacksPair)
+      eventCallbacksPair.callbacks.push(callback);
+    else
+      eventCallbacksPairs.push( new EventCallbacksPair(eventType, callback) );
+  }
+
+  this.post = function( eventType, args ) {
+    const eventCallbacksPair = findEventCallbacksPair(eventType);
+    if(!eventCallbacksPair) {
+      console.error("no subscribers for event " +eventType);
+      return;
+    }
+    eventCallbacksPair.callbacks.forEach( callback => callback(args) );
+  }
+
+  function findEventCallbacksPair(eventType) {
+    return eventCallbacksPairs.find( eventObject => eventObject.eventType === eventType );
+  }
+
+  function EventCallbacksPair( eventType, callback ) {
+    this.eventType = eventType;
+    this.callbacks = [callback];
+  }
+}
+```
