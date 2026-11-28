@@ -50,13 +50,28 @@ function toPage({ file, data, body }) {
   };
 }
 
-const posts = readMarkdownDir('posts')
-  .map(toPost)
-  .filter((p) => !p.draft)
-  .sort((a, b) => (a.date < b.date ? 1 : -1));
+function buildPosts(entries) {
+  return entries
+    .map(toPost)
+    .filter((p) => !p.draft)
+    .sort((a, b) => (a.date < b.date ? 1 : -1));
+}
 
-const pages = readMarkdownDir('pages').map(toPage);
+function buildPages(entries) {
+  return entries.map(toPage);
+}
 
-fs.mkdirSync(path.dirname(OUT_FILE), { recursive: true });
-fs.writeFileSync(OUT_FILE, JSON.stringify({ posts, pages }, null, 2));
-console.log(`content: ${posts.length} posts, ${pages.length} pages -> src/content/content.json`);
+function build() {
+  const posts = buildPosts(readMarkdownDir('posts'));
+  const pages = buildPages(readMarkdownDir('pages'));
+
+  fs.mkdirSync(path.dirname(OUT_FILE), { recursive: true });
+  fs.writeFileSync(OUT_FILE, JSON.stringify({ posts, pages }, null, 2));
+  console.log(`content: ${posts.length} posts, ${pages.length} pages -> src/content/content.json`);
+}
+
+if (require.main === module) {
+  build();
+}
+
+module.exports = { formatDate, toPost, toPage, buildPosts, buildPages, readMarkdownDir };
