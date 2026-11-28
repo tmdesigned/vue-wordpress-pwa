@@ -252,15 +252,17 @@ iframe, .table-overflow{
     display: block;
 }
 
-/* Main menu on desktop: titles always visible, hover emphasises the link instead */
-.main-menu .highlight-animation .link-text {
+/* Nav links (header menu, Start/Prev/Next buttons) on desktop: titles always visible, hover emphasises the link instead */
+.main-menu .highlight-animation .link-text,
+.linear-nav-button-inner.highlight-animation .link-text {
   @media screen and (min-width: $desktop){
     opacity: .6;
     transition: opacity .3s;
   }
 }
 
-.main-menu .highlight-animation:hover .link-text {
+.main-menu .highlight-animation:hover .link-text,
+.linear-nav-button-inner.highlight-animation:hover .link-text {
   @media screen and (min-width: $desktop){
     opacity: 1;
   }
