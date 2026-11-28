@@ -40,7 +40,7 @@ The PWA portion took up a lot of time. It was a fun experiment for me, but is de
 
 Let's break that last point down a bit. Here is a physical architecture diagram of viewing a page of results in the archive, as it exists today:
 
-![](https://tmdesigned.com/wp/wp-content/uploads/2025/06/pab-tmdesigned-1024x678.png)
+![](/img/uploads/pab-tmdesigned.png)
 
 Each HTTP request is brokered through the service worker, which allows it to cache responses and, when necessary, serve the content locally. But it has no awareness of the shape of the data or how requests relate to each other. It's elegant in one sense and dumb in another.
 
