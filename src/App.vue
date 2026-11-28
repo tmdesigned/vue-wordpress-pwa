@@ -273,10 +273,13 @@ iframe, .table-overflow{
   }
 
   .archive-nav{
-    padding-left: 1em;
-    padding-right: 1em;
-    min-width:275px;
-  }
+      padding-left: 1em;
+      padding-right: 1em;
+      width: 275px;
+      flex-shrink: 0;
+      text-align: center;
+      white-space: nowrap;
+    }
 
   .disabled{
     color: #ddd;
