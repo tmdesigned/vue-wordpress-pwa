@@ -101,14 +101,18 @@ export default {
     nextPage : function(){
       if( this.hasNext ){
         this.currentPage++;
-        this.updateShownPosts();
+        this.onPageChange();
       }
     },
     prevPage : function(){
       if( this.hasPrevious ){
         this.currentPage--;
-        this.updateShownPosts();
+        this.onPageChange();
       }
+    },
+    onPageChange : function(){
+      this.updateShownPosts();
+      window.scrollTo({ top: 0, behavior: 'auto' });
     },
     updateShownPosts(){
       this.loading = false;
