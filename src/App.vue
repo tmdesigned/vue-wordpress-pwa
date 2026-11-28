@@ -272,6 +272,17 @@ iframe, .table-overflow{
     max-width:99%;
   }
 
+  .archive-jump{
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: .5em;
+      margin-bottom: 1em;
+      flex-wrap: wrap;
+    }
+  .archive-jump-input{
+      width: 4.5em;
+    }
   .archive-nav{
     padding-left: 1em;
     padding-right: 1em;
