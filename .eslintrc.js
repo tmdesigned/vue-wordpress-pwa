@@ -18,5 +18,11 @@ module.exports = {
   parserOptions: {
     "requireConfigFile": false,
     "ecmaVersion": 2020,
-    "sourceType": "module"  }
+    "sourceType": "module"  },
+  overrides: [
+    {
+      files: ['tests/unit/**/*.spec.js'],
+      env: { jest: true }
+    }
+  ]
 }
