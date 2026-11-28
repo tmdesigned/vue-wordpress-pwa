@@ -252,7 +252,20 @@ iframe, .table-overflow{
     display: block;
 }
 
+.main-menu .highlight-animation {
+  @media screen and (min-width: $desktop){
+    display: inline-flex;
+    align-items: center;
+  }
+}
+
 /* Nav links (header menu, Start/Prev/Next buttons) on desktop: titles always visible, hover emphasises the link instead */
+.linear-nav-button-inner.highlight-animation {
+  @media screen and (min-width: $desktop){
+    align-items: center;
+  }
+}
+
 .main-menu .highlight-animation .link-text,
 .linear-nav-button-inner.highlight-animation .link-text {
   @media screen and (min-width: $desktop){
