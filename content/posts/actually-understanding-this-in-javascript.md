@@ -35,9 +35,7 @@ function identify(){
 country('the United States');
 ```
 
-In
-
-this example it looks like we were trying to add a "designation" to the country function. But it really just got added to the Window variable. So this is really dangerous because it _looks_ like it worked! But it only works because both country() and identify() are both referring to Window. The property isn't stored within context of the country() function. Let's say that you read ahead, and you found out that using the "new" method of calling a function would set "this" to that function. You'd be right, but you still might get thrown under the bus by this first rule.
+In this example it looks like we were trying to add a "designation" to the country function. But it really just got added to the Window variable. So this is really dangerous because it _looks_ like it worked! But it only works because both country() and identify() are both referring to Window. The property isn't stored within context of the country() function. Let's say that you read ahead, and you found out that using the "new" method of calling a function would set "this" to that function. You'd be right, but you still might get thrown under the bus by this first rule.
 
 ```javascript
 function country(name){
@@ -52,9 +50,7 @@ function identify(){
 var a = new country('the United States');
 ```
 
-See
-
-what's changed? We've called country() with new, and in fact "this" is now "country" inside of the country function. But it doesn't carry over, and when we call identify() "this" is back to Window again, which doesn't have a designation and returns undefined.
+See what's changed? We've called country() with new, and in fact "this" is now "country" inside of the country function. But it doesn't carry over, and when we call identify() "this" is back to Window again, which doesn't have a designation and returns undefined.
 
 ## First Exception: Explicit Binding
 
@@ -72,9 +68,7 @@ fill.call(fuelTank); //oh, 'this' is going to be the fuelTank
 console.log(fuelTank.level); //100
 ```
 
-The
-
-.call() method, which is a part of any function we create by default, accepts as its first argument a binding context. In our example here, it tells our fill() function to use the fuelTank's level variable instead of the global level variable. We can use this method to get the desired behavior we had with the first example. In other words, we're going to explicitly say that we're referring to the country's designation.
+The .call() method, which is a part of any function we create by default, accepts as its first argument a binding context. In our example here, it tells our fill() function to use the fuelTank's level variable instead of the global level variable. We can use this method to get the desired behavior we had with the first example. In other words, we're going to explicitly say that we're referring to the country's designation.
 
 ```javascript
 function country(name){
@@ -89,9 +83,7 @@ function identify(){
 var a = new country('the United States');
 ```
 
-The
-
-console correctly reads out, "I am the United States", and THIS time it's because designation lives in the country, not the global Window object.
+The console correctly reads out, "I am the United States", and THIS time it's because designation lives in the country, not the global Window object.
 
 ## Second Exception: Owner object (implicit binding)
 
@@ -111,9 +103,7 @@ function radioTest(){
 var testAlpha = new radioTest();
 ```
 
-When
-
-the report() function is called, you might think "this.name" refers to the radioTest's variable of that name. After all, that's _where_ report() was called and we even used the "new" keyword to give radioTest it's own "this". However, since report() is owned by spaceShuttle, that takes priority and the report will output, "This is Endeavor checking in." (I'd be willing to wager that this special case is what skews developers' understanding of how "this" works. See enough examples like this one, and you might think "this" always refers to the current object. Also see enough examples of the default case, and your understanding might grow to "Well, sometimes 'this' depends on where it was called." Like a child learning to speak, you begin to use grammar correctly without understanding the rules. But as a father of 3, I will tell you kids also say a lot of stupid stuff.)
+When the report() function is called, you might think "this.name" refers to the radioTest's variable of that name. After all, that's _where_ report() was called and we even used the "new" keyword to give radioTest it's own "this". However, since report() is owned by spaceShuttle, that takes priority and the report will output, "This is Endeavor checking in." (I'd be willing to wager that this special case is what skews developers' understanding of how "this" works. See enough examples like this one, and you might think "this" always refers to the current object. Also see enough examples of the default case, and your understanding might grow to "Well, sometimes 'this' depends on where it was called." Like a child learning to speak, you begin to use grammar correctly without understanding the rules. But as a father of 3, I will tell you kids also say a lot of stupid stuff.)
 
 ### But...not as bound as you might think
 
@@ -132,9 +122,7 @@ backupModule.toggleSafety();
 console.log(selfDestructModule.safetySwitch); // false!
 ```
 
-What
-
-'s happened here? The selfDestructModule and the backupModule are not duplicates. They are the exact same object. When the backup module turns off safety switch, the selfDestructModule's is now off too -- because they're the same. This affects our discussion because even though we might call a function with an explicit owner, once it's copied we don't have a clear owner any more.
+What 's happened here? The selfDestructModule and the backupModule are not duplicates. They are the exact same object. When the backup module turns off safety switch, the selfDestructModule's is now off too -- because they're the same. This affects our discussion because even though we might call a function with an explicit owner, once it's copied we don't have a clear owner any more.
 
 ```javascript
 var selfDestructModule = {
@@ -156,9 +144,7 @@ quickBoomButton(); //FAIL
 selfDestructModule.initiate(); //BOOM
 ```
 
-Here
-
-we tried to create a shortcut to the self destruct's initiate function, just by making a copy of it. Like we saw in the previous example, this set quickBoomButton to the exact same function: overloadReactor (and not just a duplicate of it). That part worked perfectly. BUT, "this" is now different because the owner of overloadReactor is no longer explicit. "This" falls back to the standard behavior, and since quickBoomButton was called in the global scope, it would be set to the global scope (i.e. "window"). The way around this quirky seeming behavior is to "harden" such calls by using an intermediary function that makes the owner explicit.
+Here we tried to create a shortcut to the self destruct's initiate function, just by making a copy of it. Like we saw in the previous example, this set quickBoomButton to the exact same function: overloadReactor (and not just a duplicate of it). That part worked perfectly. BUT, "this" is now different because the owner of overloadReactor is no longer explicit. "This" falls back to the standard behavior, and since quickBoomButton was called in the global scope, it would be set to the global scope (i.e. "window"). The way around this quirky seeming behavior is to "harden" such calls by using an intermediary function that makes the owner explicit.
 
 ### Hardened Binding
 
@@ -170,9 +156,7 @@ function initiateSelfDestruct(){
 }
 ```
 
-If
-
-our spaceship object had its initiate property pointed to this function instead, our shortcut above would actually work, because our intermediary function is making the binding explicit.
+If our spaceship object had its initiate property pointed to this function instead, our shortcut above would actually work, because our intermediary function is making the binding explicit.
 
 ## Bringing it all together
 

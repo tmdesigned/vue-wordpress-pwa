@@ -24,9 +24,7 @@ var userIsRegistered = false;
 <?php if( ...some php code here... ) echo "userIsRegistered = true;"; ?>
 ```
 
-So
-
-we have some conditional logic, but all that's happening before the page is sent to the browser. All the browser will see is:
+So we have some conditional logic, but all that's happening before the page is sent to the browser. All the browser will see is:
 
 ```javascript
 var userIsRegistered = false;
