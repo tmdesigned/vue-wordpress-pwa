@@ -1,9 +1,13 @@
 ---
-title: "Things I did right (and wrong) making this site in 2019"
-slug: "things-i-did-right-and-wrong-making-this-site-in-2019"
-date: "2025-06-14"
-excerpt: "I made this Vue.js view of a headless WordPress backend in 2019. 6 years later, what would I do differently? ## What I did right First, let me say a few things that I am still happy with: 1. The minimalistic style still works. If my brand i"
-tags:
+title: Things I did right (and wrong) making this site in 2019
+slug: things-i-did-right-and-wrong-making-this-site-in-2019
+date: 2025-06-14
+excerpt: "I made this Vue.js view of a headless WordPress backend in 2019. 6
+  years later, what would I do differently? ## What I did right First, let me
+  say a few things that I am still happy with: 1. The minimalistic style still
+  works. If my brand i"
+image: /img/uploads/pab-tmdesigned.png
+tags: null
 draft: false
 ---
 I made this Vue.js view of a headless WordPress backend in 2019. 6 years later, what would I do differently?
