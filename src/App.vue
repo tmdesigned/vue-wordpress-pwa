@@ -252,6 +252,20 @@ iframe, .table-overflow{
     display: block;
 }
 
+/* Main menu on desktop: titles always visible, hover emphasises the link instead */
+.main-menu .highlight-animation .link-text {
+  @media screen and (min-width: $desktop){
+    opacity: .6;
+    transition: opacity .3s;
+  }
+}
+
+.main-menu .highlight-animation:hover .link-text {
+  @media screen and (min-width: $desktop){
+    opacity: 1;
+  }
+}
+
 .home-title {
     text-align: center;
     margin-top: 100px;
