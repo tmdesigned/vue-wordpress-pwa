@@ -4,15 +4,24 @@
     <div v-if="loading">LOADING</div>
     <div v-if="!loading" class="post-list-area">
         <div class="pagination-area">
-          <div class="pagination">
-            <a class="button archive-prev-page highlight-animation highlight-from-left" v-on:click="prevPage" :class="{ 'disabled' : !hasPrevious}"><i class="fa fa-chevron-left"></i></a>
-            <div class="sub-info archive-nav"> Showing {{ first }}-{{ last }} of {{ totalPosts }} posts.</div>
-            <a class="button archive-next-page highlight-animation highlight-from-right" v-on:click="nextPage" :class="{ 'disabled' : !hasNext}"><i class="fa fa-chevron-right"></i></a>
+          <div class="pagination-row">
+            <div class="pagination" v-if="!isGallery">
+              <a class="button archive-prev-page highlight-animation highlight-from-left" v-on:click="prevPage" :class="{ 'disabled' : !hasPrevious}"><i class="fa fa-chevron-left"></i></a>
+              <div class="sub-info archive-nav"> Showing {{ first }}-{{ last }} of {{ totalPosts }} posts.</div>
+              <a class="button archive-next-page highlight-animation highlight-from-right" v-on:click="nextPage" :class="{ 'disabled' : !hasNext}"><i class="fa fa-chevron-right"></i></a>
+            </div>
+            <button type="button" class="view-toggle-button" v-on:click="toggleView" :title="isGallery ? 'List view' : 'Gallery view'" :aria-label="isGallery ? 'Switch to list view' : 'Switch to gallery view'">
+              <i class="fa fa-fw" :class="isGallery ? 'fa-list' : 'fa-th-large'" aria-hidden="true"></i>
+            </button>
           </div>
         </div>
-        <ul class="post-list">
+        <ul class="post-list" :class="{ 'post-gallery': isGallery }">
           <li v-for="post in postsToShow" :key="'post-' + post.slug">
-             <router-link :to="{ name: 'post', params: {slug: post.slug } }">
+             <router-link v-if="isGallery" class="gallery-item" :to="{ name: 'post', params: {slug: post.slug } }" :title="post.title">
+              <div class="gallery-image" v-bind:style="{ backgroundImage: 'url(' + post.featured_image + ')' }"></div>
+              <span class="gallery-title">{{ post.title }}</span>
+            </router-link>
+             <router-link v-else :to="{ name: 'post', params: {slug: post.slug } }">
               <article class="post-list-item highlight-animation highlight-shutter-out">
                 <div class="post-thumbnail" v-bind:style="{ backgroundImage: 'url(' + post.featured_image + ')' }">
                 </div>
@@ -31,7 +40,7 @@
             </router-link>
           </li>
         </ul>
-        <div class="pagination-area">
+        <div class="pagination-area" v-if="!isGallery">
           <div class="pagination">
             <a class="button archive-prev-page highlight-animation highlight-from-left" v-on:click="prevPage" :class="{ 'disabled' : !hasPrevious}"><i class="fa fa-chevron-left"></i></a>
             <div class="sub-info archive-nav"> Showing {{ first }}-{{ last }} of {{ totalPosts }} posts.</div>
@@ -52,6 +61,10 @@
 <script>
 import { formatDate } from '@/utils/format-date.js';
 import { parsePageNumber, pageCount as countPages } from '@/utils/page-number.js';
+import { normalizeArchiveView, nextArchiveView } from '@/utils/archive-view.js';
+
+// Gallery shows every post on one page; list pages through this many at a time.
+const LIST_PAGE_SIZE = 10;
 
 export default {
   name: 'archive',
@@ -59,12 +72,18 @@ export default {
     return {
       loading : true,
       postsToShow : [],
-      currentPage : 1, 
-      postsPerPage : 5,
-      jumpInput : ''
+      currentPage : 1,
+      jumpInput : '',
+      viewMode : normalizeArchiveView('gallery')
     }
   },
   computed : {
+    isGallery : function(){
+      return this.viewMode === 'gallery';
+    },
+    postsPerPage : function(){
+      return this.isGallery ? Math.max(1, this.totalPosts) : LIST_PAGE_SIZE;
+    },
     pageCount : function(){
       return countPages(this.totalPosts, this.postsPerPage);
     },
@@ -87,9 +106,9 @@ export default {
       return (this.postsPerPage * (this.currentPage - 1)) + 1;
     },
     last : function(){
-      return (this.postsPerPage * ( this.currentPage )) < this.totalPosts ? 
-                (this.postsPerPage * ( this.currentPage )) : 
-                this.totalPosts > 0 ? 
+      return (this.postsPerPage * ( this.currentPage )) < this.totalPosts ?
+                (this.postsPerPage * ( this.currentPage )) :
+                this.totalPosts > 0 ?
                 this.totalPosts :
                 0;
     }
@@ -105,6 +124,10 @@ export default {
       handler : function(){
         this.updateShownPosts();
       }
+    },
+    viewMode : function(){
+      this.currentPage = 1;
+      this.updateShownPosts();
     }
   },
   methods :{
@@ -128,6 +151,9 @@ export default {
         this.onPageChange();
       }
       this.jumpInput = '';
+    },
+    toggleView : function(){
+      this.viewMode = nextArchiveView(this.viewMode);
     },
     onPageChange : function(){
       this.updateShownPosts();
