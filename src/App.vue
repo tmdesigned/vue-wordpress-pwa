@@ -86,8 +86,8 @@ export default {
   @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css');
   
   $tablet : 672px;
-  $desktop : 960px;
-  $desktopFromLeft : 959px;
+  $desktop : 1185px;
+  $desktopFromLeft : 1184px;
 
   body{
     margin: 0;
@@ -250,6 +250,36 @@ iframe, .table-overflow{
 
 .site-header .linear-nav-button-inner {
     display: block;
+}
+
+.main-menu .highlight-animation {
+  @media screen and (min-width: $desktop){
+    display: inline-flex;
+    align-items: center;
+    gap: .4em;
+  }
+}
+
+/* Nav links (header menu, Start/Prev/Next buttons) on desktop: titles always visible, hover emphasises the link instead */
+.linear-nav-button-inner.highlight-animation {
+  @media screen and (min-width: $desktop){
+    align-items: center;
+  }
+}
+
+.main-menu .highlight-animation .link-text,
+.linear-nav-button-inner.highlight-animation .link-text {
+  @media screen and (min-width: $desktop){
+    opacity: .6;
+    transition: opacity .3s;
+  }
+}
+
+.main-menu .highlight-animation:hover .link-text,
+.linear-nav-button-inner.highlight-animation:hover .link-text {
+  @media screen and (min-width: $desktop){
+    opacity: 1;
+  }
 }
 
 .home-title {
