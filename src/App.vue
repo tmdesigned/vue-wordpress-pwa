@@ -313,6 +313,70 @@ iframe, .table-overflow{
   .archive-jump-input{
       width: 4.5em;
     }
+  .pagination-row{
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      /* fixed height so the toggle sits in the same place in list and gallery views */
+      height: 3.5em;
+    }
+  .view-toggle-button{
+      position: absolute;
+      right: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: 0;
+      padding: .25em .5em;
+      font-size: 110%;
+      color: #888;
+      cursor: pointer;
+      &:hover, &:focus{
+        color: #333;
+      }
+    }
+  ul.post-gallery{
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: .5em;
+      @media screen and (min-width: $desktop){
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+  .gallery-item{
+      position: relative;
+      display: block;
+      aspect-ratio: 1 / 1;
+      overflow: hidden;
+      .gallery-image{
+        width: 100%;
+        height: 100%;
+        background-size: cover;
+        background-position: center center;
+        transition: transform .3s;
+      }
+      .gallery-title{
+        position: absolute;
+        inset: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: .5em;
+        text-align: center;
+        color: #fff;
+        background-color: rgba(0,0,0,.6);
+        opacity: 0;
+        transition: opacity .3s;
+      }
+      &:hover .gallery-title,
+      &:focus .gallery-title{
+        opacity: 1;
+      }
+      &:hover .gallery-image{
+        transform: scale(1.05);
+      }
+    }
   .archive-nav{
       padding-left: 1em;
       padding-right: 1em;
