@@ -256,6 +256,7 @@ iframe, .table-overflow{
   @media screen and (min-width: $desktop){
     display: inline-flex;
     align-items: center;
+    gap: .4em;
   }
 }
 
