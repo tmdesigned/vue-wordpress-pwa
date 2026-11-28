@@ -32,7 +32,21 @@ Hypothetically geocoded addresses shouldn't change, but they might. Roads can be
 
 ## On the Front End
 
-Since I am using my the ready() method, my code example for front end developers is rather small: \[code language="javascript"\]var retailLocationsArray = \['123 Maple Ave, Memphis TN 38117','125 Maple Ave, Memphis, TN 38117'\]; var retailLocationsGeocoder = new geocoder(retailLocationsArray); retailLocationsGeocoder.ready(function(){ var retailLocationsGeocodedDictionary = retailLocationsGeocoder.getAllResults(); for(var i=0;i<retailLocationsArray.length;i++){ var thisResult = retailLocationsGeocodedDictionary\[retailLocationsArray\[i\]\]; //Create marker or other code, using thisResult.lat and thisResult.lng } }); \[/code\] So again, we're sending in an array of addresses. We initialize a new geocoder with those addresses, and it immediately starts working on them. In the meantime, we start queuing up our followup code. When the lookups are all done, we'll fetch a dictionary of results from the geocoder and use it to plot the results on the map.
+Since I am using my the ready() method, my code example for front end developers is rather small:
+
+```javascript
+var retailLocationsArray = ['123 Maple Ave, Memphis TN 38117','125 Maple Ave, Memphis, TN 38117'];
+var retailLocationsGeocoder = new geocoder(retailLocationsArray);
+retailLocationsGeocoder.ready(function(){
+  var retailLocationsGeocodedDictionary = retailLocationsGeocoder.getAllResults();
+  for(var i=0;i<retailLocationsArray.length;i++){
+    var thisResult = retailLocationsGeocodedDictionary[retailLocationsArray[i]];
+    //Create marker or other code, using thisResult.lat and thisResult.lng
+  }
+});
+```
+
+So again, we're sending in an array of addresses. We initialize a new geocoder with those addresses, and it immediately starts working on them. In the meantime, we start queuing up our followup code. When the lookups are all done, we'll fetch a dictionary of results from the geocoder and use it to plot the results on the map.
 
 ## Error Checking
 

@@ -57,11 +57,17 @@ And, there are even combination functions that combine some of these with the tr
 
 For instance, if we have this code pulling data from an Advanced Custom Field and that data has an apostrophe in it, we're in for some trouble:
 
-\[code language="php"\]$title = get\_field( 'element\_title' ); //Mary's Recipe echo "![](... "$title")";\[/code\]  
+```php
+$title = get_field( 'element_title' ); //Mary's Recipe
+echo "![](... "$title")";
+```  
 
 But if we just add the proper escaping function, we're all set!
 
-\[code language="php"\]$title = esc\_attr( get\_field( 'element\_title' ) ); //Mary's Recipe echo "![](... "$title")";\[/code\]  
+```php
+$title = esc_attr( get_field( 'element_title' ) ); //Mary's Recipe
+echo "![](... "$title")";
+```  
 
 ## It's not all about security
 

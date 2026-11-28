@@ -21,11 +21,15 @@ I had been advocating for a container block, along with many, many others, and w
 
 My "big" change was from:
 
-\[code language="js"\] if ( isLocked || ( isFirst && isLast ) ) { \[/code\]
+```js
+if ( isLocked || ( isFirst && isLast ) ) {
+```
 
 to:
 
-\[code language="js"\] if ( isLocked || ( isFirst && isLast && ! rootClientId ) ) { \[/code\]
+```js
+if ( isLocked || ( isFirst && isLast && ! rootClientId ) ) {
+```
 
 Which is admittedly minor, but reflected a lot of research and trial and error. But I found I was so rusty with React that I needed a lot of hand-holding, and so I decided I would eventually need to dive back in to better understand it.
 
