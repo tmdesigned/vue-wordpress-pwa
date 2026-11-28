@@ -58,6 +58,26 @@ describe('Archive pagination', () => {
     expect(scrollSpy).toHaveBeenCalledWith({ top: 0, behavior: 'auto' })
   })
 
+  it('jumps to a valid page number entered in the jump form', async () => {
+    const wrapper = mountArchive()
+    scrollSpy.mockClear()
+
+    wrapper.find('#archive-jump-input').setValue('3')
+    await wrapper.find('form.archive-jump').trigger('submit')
+
+    expect(wrapper.vm.currentPage).toBe(3)
+    expect(scrollSpy).toHaveBeenCalledWith({ top: 0, behavior: 'auto' })
+  })
+
+  it('ignores an out-of-range page number in the jump form', async () => {
+    const wrapper = mountArchive()
+
+    wrapper.find('#archive-jump-input').setValue('9')
+    await wrapper.find('form.archive-jump').trigger('submit')
+
+    expect(wrapper.vm.currentPage).toBe(1)
+  })
+
   it('does not scroll when next is unavailable on the last page', () => {
     const wrapper = mountArchive()
     wrapper.vm.nextPage()

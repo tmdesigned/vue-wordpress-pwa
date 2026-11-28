@@ -37,6 +37,12 @@
             <div class="sub-info archive-nav"> Showing {{ first }}-{{ last }} of {{ totalPosts }} posts.</div>
             <a class="button archive-next-page highlight-animation highlight-from-right" v-on:click="nextPage" :class="{ 'disabled' : !hasNext}"><i class="fa fa-chevron-right"></i></a>
           </div>
+          <form class="archive-jump" v-on:submit.prevent="jumpToPage">
+            <label for="archive-jump-input">Go to page</label>
+            <input id="archive-jump-input" class="archive-jump-input" type="number" min="1" :max="pageCount" v-model="jumpInput" />
+            <span class="sub-info">of {{ pageCount }}</span>
+            <button type="submit" class="button">Go</button>
+          </form>
         </div>
 
     </div>
@@ -45,6 +51,7 @@
 
 <script>
 import { formatDate } from '@/utils/format-date.js';
+import { parsePageNumber, pageCount as countPages } from '@/utils/page-number.js';
 
 export default {
   name: 'archive',
@@ -53,10 +60,14 @@ export default {
       loading : true,
       postsToShow : [],
       currentPage : 1, 
-      postsPerPage : 5
+      postsPerPage : 5,
+      jumpInput : ''
     }
   },
   computed : {
+    pageCount : function(){
+      return countPages(this.totalPosts, this.postsPerPage);
+    },
     postsByDate : function(){ //local copy of all posts from store
       return this.$store.state.postsByDate;
     },
@@ -109,6 +120,14 @@ export default {
         this.currentPage--;
         this.onPageChange();
       }
+    },
+    jumpToPage : function(){
+      const page = parsePageNumber(this.jumpInput, this.pageCount);
+      if( page !== null ){
+        this.currentPage = page;
+        this.onPageChange();
+      }
+      this.jumpInput = '';
     },
     onPageChange : function(){
       this.updateShownPosts();
