@@ -86,8 +86,8 @@ export default {
   @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css');
   
   $tablet : 672px;
-  $desktop : 960px;
-  $desktopFromLeft : 959px;
+  $desktop : 735px;
+  $desktopFromLeft : 734px;
 
   body{
     margin: 0;
